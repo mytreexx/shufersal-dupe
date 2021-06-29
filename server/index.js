@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { Op, sequelize, Client, Task } = require('./models');
+const { Op, sequelize, Customer, Category, Product, ShoppingCart, CartItem, Order } = require('./models');
 
 
 app.use(cors());
@@ -20,18 +20,23 @@ const validateEmail = (email) => {
 //register step 1
 app.post('/registration-check', async (req, res) => {
     const { idNumber, email, password, confirmPassword } = req.body;
-    const registeredIdNumber = await User.findOne({ where: { id: idNumber } });
+
+    let registeredIdNumber;
+
+    if (idNumber) {
+        registeredIdNumber = await Customer.findOne({ where: { id: idNumber } })
+    }
 
     if (!idNumber || !email || !password || !confirmPassword) {
-        res.send({ error: 'כל השדות הינם שדות חובה' })
+        res.send({ error: 'נא למלא את כל השדות' })
     } else if (!validateEmail(email)) {
         res.send({ error: 'כתובת אימייל אינה תקינה' })
     } else if (registeredIdNumber) {
         res.send({ error: 'תעודת זהות קיימת במערכת' })
     } else if (password && password.length < 6) {
-        res.send('אורך סיסמה צריך להיות לפחות שישה תווים')
+        res.send({ error: 'אורך סיסמה צריך להיות לפחות שישה תווים' })
     } else if (password !== confirmPassword) {
-        res.send('סיסמאות לא תואמות')
+        res.send({ error: 'סיסמאות לא תואמות' })
     } else {
         res.send()
     }
