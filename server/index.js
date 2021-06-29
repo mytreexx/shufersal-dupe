@@ -68,6 +68,20 @@ app.post('/register', async (req, res) => {
 })
 
 //login
+app.post('/login', async (req, res) => {
+    const { idNumber, password } = req.body;
+
+    const loggingInUser = await Customer.findOne({ where: { id: idNumber } });
+    console.log(loggingInUser)
+
+    if (!loggingInUser) {
+        res.send({ error: 'משתמש לא נמצא' })
+    } else if (loggingInUser.password !== password) {
+        res.send({ error: 'סיסמה לא נכונה' })
+    } else {
+        res.send({ userId: loggingInUser.id });
+    }
+})
 
 //get general store details 
 
