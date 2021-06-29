@@ -106,8 +106,26 @@ app.post('/login', async (req, res) => {
 //make order
 
 //admin: add new products
+app.post('/product', async (req, res) => {
+    const { productName, categoryId, price, image, brand } = req.body;
+    try {
+        await sequelize.sync();
+        await Product.create({
+            product_name: productName,
+            category_id: categoryId,
+            price,
+            image,
+            brand
+        });
+        res.send();
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 //admin: edit products
+
 
 app.listen(1337, () => {
     console.log('the server is listening on port 1337')
