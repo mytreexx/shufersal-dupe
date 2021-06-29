@@ -43,6 +43,29 @@ app.post('/registration-check', async (req, res) => {
 })
 
 //register step 2
+app.post('/register', async (req, res) => {
+    const { idNumber, email, password, firstName, lastName, city, street } = req.body;
+    if (!firstName || !lastName || !city || !street) {
+        res.send({ error: 'נא למלא את כל השדות' })
+    } else {
+        try {
+            await sequelize.sync();
+            await Customer.create({
+                id: idNumber,
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                password,
+                city,
+                street
+            });
+            res.send();
+        } catch (e) {
+            console.error(e)
+            res.send(e)
+        }
+    }
+})
 
 //login
 
