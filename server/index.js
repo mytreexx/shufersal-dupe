@@ -86,6 +86,12 @@ app.post('/login', async (req, res) => {
 //get general store details 
 
 //get all products by category
+app.get('/products', async (req, res) => {
+    const { categoryId } = req.body;
+
+    const products = await Product.findAll({ where: { category_id: categoryId } });
+    res.send(products)
+})
 
 //search for product
 
