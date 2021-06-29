@@ -1,4 +1,4 @@
-const { Sequelize, Op, Model, DataTypes } = require("sequelize");
+const { Sequelize, Op, DataTypes } = require("sequelize");
 
 const sequelize = new Sequelize('shufersal', 'root', '', {
     host: 'localhost',
@@ -16,7 +16,7 @@ const testConnection = async () => {
 
 testConnection();
 
-const Client = sequelize.define('client', {
+const Customer = sequelize.define('customer', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -52,7 +52,7 @@ const Client = sequelize.define('client', {
     timestamps: false
 });
 
-const Category = sequelize.define('categories', {
+const Category = sequelize.define('categorie', {
     category: {
         type: DataTypes.STRING,
         allowNull: false
@@ -61,7 +61,7 @@ const Category = sequelize.define('categories', {
     timestamps: false
 });
 
-const Product = sequelize.define('products', {
+const Product = sequelize.define('product', {
     product_name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -86,8 +86,8 @@ const Product = sequelize.define('products', {
     timestamps: false
 });
 
-const ShoppingCart = sequelize.define('shopping_carts', {
-    client_id: {
+const ShoppingCart = sequelize.define('shopping_cart', {
+    customer_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -99,7 +99,7 @@ const ShoppingCart = sequelize.define('shopping_carts', {
     timestamps: false
 });
 
-const CartItem = sequelize.define('cart_items', {
+const CartItem = sequelize.define('cart_item', {
     product_id: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -120,8 +120,8 @@ const CartItem = sequelize.define('cart_items', {
     timestamps: false
 });
 
-const Order = sequelize.define('orders', {
-    client_id: {
+const Order = sequelize.define('order', {
+    customer_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -158,18 +158,18 @@ const Order = sequelize.define('orders', {
 });
 
 Product.hasOne(Category, { foreignKey: 'id', sourceKey: 'category_id' });
-ShoppingCart.hasOne(Client, { foreignKey: 'id', sourceKey: 'client_id' });
+ShoppingCart.hasOne(Customer, { foreignKey: 'id', sourceKey: 'customer_id' });
 
 CartItem.hasOne(Product, { foreignKey: 'id', sourceKey: 'product_id' });
 CartItem.hasOne(ShoppingCart, { foreignKey: 'id', sourceKey: 'cart_id' });
 
-Order.hasOne(Client, { foreignKey: 'id', sourceKey: 'client_id' });
+Order.hasOne(Customer, { foreignKey: 'id', sourceKey: 'customer_id' });
 Order.hasOne(ShoppingCart, { foreignKey: 'id', sourceKey: 'cart_id' });
 
 module.exports = {
     sequelize,
     Op,
-    Client,
+    Customer,
     Category,
     Product,
     ShoppingCart,
