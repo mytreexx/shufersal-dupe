@@ -102,6 +102,23 @@ app.get('/search', async (req, res) => {
 })
 
 //add product to cart
+app.post('/products', async (req, res) => {
+    const { productName, categoryId, price, image, brand } = req.body;
+
+    try {
+        const product = await Product.create({
+            product_name: productName,
+            category_id: categoryId,
+            price,
+            image,
+            brand
+        });
+        res.send(product);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ err: 'Something went wrong' });
+    }
+})
 
 //remove product from cart
 
