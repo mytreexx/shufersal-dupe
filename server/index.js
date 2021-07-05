@@ -94,6 +94,12 @@ app.get('/products', async (req, res) => {
 })
 
 //search for product
+app.get('/search', async (req, res) => {
+    const { searchTerm } = req.body;
+    const products = await Product.findAll({ where: { product_name: { [Op.like]: `%${searchTerm}%` } } })
+
+    res.send(products)
+})
 
 //add product to cart
 
