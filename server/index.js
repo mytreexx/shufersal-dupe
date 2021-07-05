@@ -84,6 +84,10 @@ app.post('/login', async (req, res) => {
 })
 
 //get general store details 
+// get number of products
+// get number of complete orderd
+// get customer latest order status
+
 
 //get all products by category
 app.get('/products', async (req, res) => {
@@ -154,6 +158,24 @@ app.post('/product', async (req, res) => {
 })
 
 //admin: edit products
+app.patch('/product', async (req, res) => {
+    const { productId, productName, categoryId, price, image, brand } = req.body;
+    const product = await Product.findOne({ where: { id: productId } });
+
+    productName && (product.product_name = productName);
+    categoryId && (product.category_id = categoryId);
+    price && (product.price = price);
+    image && (product.image = image);
+    brand && (product.brand = brand);
+
+    try {
+        await product.save();
+        res.send(product);
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 
 app.listen(1337, () => {
