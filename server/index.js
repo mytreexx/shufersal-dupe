@@ -137,7 +137,7 @@ app.get('/cart', async (req, res) => {
         if (order) {
             createNewCart();
         } else {
-            const cartItems = await CartItem.findAll({ where: { cart_id: cart.id } })
+            const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
             res.send(cartItems)
         }
     } else {
