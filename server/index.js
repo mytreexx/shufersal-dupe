@@ -264,6 +264,39 @@ app.get('/order', async (req, res) => {
 })
 
 // create order
+app.post('/order', async (req, res) => {
+    const { customerId, city, street, shippingDate, creditCard } = req.body;
+
+    const currentCart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id } })
+    let totalPrice = 0;
+    cartItems.forEach(item => totalPrice = totalPrice + item.total_price)
+
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, "-");
+
+    try {
+        await sequelize.sync();
+        await Order.create({
+            customer_id: customerId,
+            cart_id: currentCart.id,
+            total_price: totalPrice,
+            city,
+            street,
+            shipping_date: shippingDate,
+            order_date: formattedDate,
+            credit_card_last_digits: creditCard
+        });
+        res.send({message: `order complete!`});
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 //admin: add new products
 app.post('/product', async (req, res) => {
