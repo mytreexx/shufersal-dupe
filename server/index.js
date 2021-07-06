@@ -84,6 +84,7 @@ app.post('/login', async (req, res) => {
 })
 
 //get general store details 
+
 // get number of products
 // get number of complete orderd
 // get customer latest order status
@@ -105,30 +106,51 @@ app.get('/search', async (req, res) => {
     res.send(products)
 })
 
-//add product to cart
-app.post('/products', async (req, res) => {
-    const { productName, categoryId, price, image, brand } = req.body;
 
-    try {
-        const product = await Product.create({
-            product_name: productName,
-            category_id: categoryId,
-            price,
-            image,
-            brand
-        });
-        res.send(product);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ err: 'Something went wrong' });
+//check if there is an active cart and show items
+app.get('/cart', async (req, res) => {
+    const { customerId } = req.body;
+
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, "-");
+
+    const createNewCart = async () => {
+        try {
+            await sequelize.sync();
+            await ShoppingCart.create({
+                customer_id: customerId,
+                created_at: formattedDate
+            });
+            res.send({ message: 'created new cart!' });
+        } catch (e) {
+            console.error(e)
+            res.send(e)
+        }
+    }
+
+    const cart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    if (cart) {
+        const order = await Order.findOne({ where: { cart_id: cart.id } })
+        if (order) {
+            createNewCart();
+        } else {
+            const cartItems = await CartItem.findAll({ where: { cart_id: cart.id } })
+            res.send(cartItems)
+        }
+    } else {
+        createNewCart();
     }
 })
+
+//add product to cart
 
 //remove product from cart
 
 //update quantity of product in cart
-
-//show cart
 
 //empty cart
 
