@@ -84,6 +84,46 @@ app.post('/login', async (req, res) => {
 })
 
 //get general store details 
+app.get('/details', async (req, res) => {
+    const { customerId } = req.body;
+
+
+    const products = await Product.findAll();
+    const orders = await Order.findAll();
+
+    if (customerId) {
+        const customer = await Customer.findOne({ where: { id: customerId } });
+        let messageToUser;
+
+        const cart = await ShoppingCart.findOne({
+            where: { customer_id: customerId },
+            order: [['id', 'DESC']],
+        });
+
+        if (cart) {
+            const order = await Order.findOne({ where: { cart_id: cart.id } })
+            if (order) {
+                messageToUser = `ההזמנה האחרונה שלך בוצעה בתאריך ${order.order_date}`;
+            } else {
+                messageToUser = `קיימת עגלת קניות מהתאריך ${cart.created_at}`;
+            }
+        } else {
+            messageToUser = `ברוכים הבאים ${customer.first_name}`;
+        }
+
+        res.send({
+            numberOfProducts: products.length,
+            numberOfOrders: orders.length,
+            messageToUser
+        })
+    } else {
+        res.send({
+            numberOfProducts: products.length,
+            numberOfOrders: orders.length,
+        })
+    }
+
+})
 
 // get number of products
 // get number of complete orderd
@@ -291,7 +331,7 @@ app.post('/order', async (req, res) => {
             order_date: formattedDate,
             credit_card_last_digits: creditCard
         });
-        res.send({message: `order complete!`});
+        res.send({ message: `order complete!` });
     } catch (e) {
         console.error(e)
         res.send(e)
