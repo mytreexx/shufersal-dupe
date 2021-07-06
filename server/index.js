@@ -164,7 +164,7 @@ app.post('/item', async (req, res) => {
             quantity,
             total_price: product.price * quantity
         });
-        res.send({ totalPrice: total_price });
+        res.send({ totalPrice: product.price * quantity });
     } catch (e) {
         console.error(e)
         res.send(e)
