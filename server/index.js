@@ -197,7 +197,38 @@ app.delete('/item', async (req, res) => {
     }
 })
 
-//update quantity of product in cart
+//update quantity of an item in cart
+app.patch('/item', async (req, res) => {
+    const { customerId, productId, newQuantity } = req.body;
+
+    const product = await Product.findOne({ where: { id: productId } })
+
+    const currentCart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    const itemToUpdate = await CartItem.findOne({
+        where: {
+            [Op.and]: [
+                { product_id: productId },
+                { cart_id: currentCart.id }
+            ]
+        }
+    });
+
+    itemToUpdate.quantity = newQuantity;
+    itemToUpdate.total_price = (newQuantity * product.price);
+
+    try {
+        await sequelize.sync();
+        itemToUpdate.save();
+        res.send(itemToUpdate);
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 //empty cart
 
