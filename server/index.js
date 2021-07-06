@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const { Op, sequelize, Customer, Category, Product, ShoppingCart, CartItem, Order } = require('./models');
 const authRoute = require('./routes/auth');
+const orderRoute = require('./routes/order');
 
 
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.urlencoded({
 app.use(express.json());
 
 app.use(authRoute)
+app.use('/order', orderRoute)
 
 //get general store details 
 app.get('/details', async (req, res) => {
@@ -206,55 +208,6 @@ app.delete('/cart', async (req, res) => {
         await sequelize.sync();
         CartItem.destroy({ where: { cart_id: currentCart.id } });
         res.send({ message: `cart ${currentCart.id} is now empty` });
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
-})
-
-//show order items + customer details
-app.get('/order', async (req, res) => {
-    const { customerId } = req.body;
-
-    const customer = await Customer.findOne({ where: { id: customerId } });
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
-    });
-    const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id }, include: { model: Product } })
-
-    res.send({ cartItems, customer })
-})
-
-// create order
-app.post('/order', async (req, res) => {
-    const { customerId, city, street, shippingDate, creditCard } = req.body;
-
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
-    });
-
-    const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id } })
-    let totalPrice = 0;
-    cartItems.forEach(item => totalPrice = totalPrice + item.total_price)
-
-    const date = new Date();
-    const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, "-");
-
-    try {
-        await sequelize.sync();
-        await Order.create({
-            customer_id: customerId,
-            cart_id: currentCart.id,
-            total_price: totalPrice,
-            city,
-            street,
-            shipping_date: shippingDate,
-            order_date: formattedDate,
-            credit_card_last_digits: creditCard
-        });
-        res.send({ message: `order complete!` });
     } catch (e) {
         console.error(e)
         res.send(e)
