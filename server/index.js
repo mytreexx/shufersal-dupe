@@ -87,7 +87,6 @@ app.post('/login', async (req, res) => {
 app.get('/details', async (req, res) => {
     const { customerId } = req.body;
 
-
     const products = await Product.findAll();
     const orders = await Order.findAll();
 
@@ -110,7 +109,6 @@ app.get('/details', async (req, res) => {
         } else {
             messageToUser = `ברוכים הבאים ${customer.first_name}`;
         }
-
         res.send({
             numberOfProducts: products.length,
             numberOfOrders: orders.length,
@@ -124,11 +122,6 @@ app.get('/details', async (req, res) => {
     }
 
 })
-
-// get number of products
-// get number of complete orderd
-// get customer latest order status
-
 
 //get all products by category
 app.get('/products', async (req, res) => {
