@@ -4,7 +4,8 @@ const app = express();
 const { Op, sequelize, Customer, Category, Product, ShoppingCart, CartItem, Order } = require('./models');
 const authRoute = require('./routes/auth');
 const orderRoute = require('./routes/order');
-const productRoute = require('./routes/product')
+const productRoute = require('./routes/product');
+const detailsRoute = require('./routes/details');
 
 
 app.use(cors());
@@ -16,46 +17,7 @@ app.use(express.json());
 app.use(authRoute)
 app.use('/order', orderRoute)
 app.use('/product', productRoute)
-
-//get general store details 
-app.get('/details', async (req, res) => {
-    const { customerId } = req.body;
-
-    const products = await Product.findAll();
-    const orders = await Order.findAll();
-
-    if (customerId) {
-        const customer = await Customer.findOne({ where: { id: customerId } });
-        let messageToUser;
-
-        const cart = await ShoppingCart.findOne({
-            where: { customer_id: customerId },
-            order: [['id', 'DESC']],
-        });
-
-        if (cart) {
-            const order = await Order.findOne({ where: { cart_id: cart.id } })
-            if (order) {
-                messageToUser = `ההזמנה האחרונה שלך בוצעה בתאריך ${order.order_date}`;
-            } else {
-                messageToUser = `קיימת עגלת קניות מהתאריך ${cart.created_at}`;
-            }
-        } else {
-            messageToUser = `ברוכים הבאים ${customer.first_name}`;
-        }
-        res.send({
-            numberOfProducts: products.length,
-            numberOfOrders: orders.length,
-            messageToUser
-        })
-    } else {
-        res.send({
-            numberOfProducts: products.length,
-            numberOfOrders: orders.length,
-        })
-    }
-
-})
+app.use('/details', detailsRoute)
 
 //check if there is an active cart and show items
 app.get('/cart', async (req, res) => {
