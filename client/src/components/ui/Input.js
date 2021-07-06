@@ -37,11 +37,11 @@ const Container = styled.div`
         border-bottom: #048bf3 1px solid;
     }
 
-    :focus-within input{
+    :focus-within input {
         color: #048bf3;
     }
 
-    :focus-within label{
+    :focus-within label {
         color: #048bf3;
     }
 `;
