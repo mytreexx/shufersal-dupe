@@ -4,6 +4,7 @@ const app = express();
 const { Op, sequelize, Customer, Category, Product, ShoppingCart, CartItem, Order } = require('./models');
 const authRoute = require('./routes/auth');
 const orderRoute = require('./routes/order');
+const productRoute = require('./routes/product')
 
 
 app.use(cors());
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use(authRoute)
 app.use('/order', orderRoute)
+app.use('/product', productRoute)
 
 //get general store details 
 app.get('/details', async (req, res) => {
@@ -53,22 +55,6 @@ app.get('/details', async (req, res) => {
         })
     }
 
-})
-
-//get all products by category
-app.get('/products', async (req, res) => {
-    const { categoryId } = req.body;
-
-    const products = await Product.findAll({ where: { category_id: categoryId } });
-    res.send(products)
-})
-
-//search for product
-app.get('/search', async (req, res) => {
-    const { searchTerm } = req.body;
-    const products = await Product.findAll({ where: { product_name: { [Op.like]: `%${searchTerm}%` } } })
-
-    res.send(products)
 })
 
 //check if there is an active cart and show items
@@ -213,46 +199,6 @@ app.delete('/cart', async (req, res) => {
         res.send(e)
     }
 })
-
-//admin: add new products
-app.post('/product', async (req, res) => {
-    const { productName, categoryId, price, image, brand } = req.body;
-    try {
-        await sequelize.sync();
-        await Product.create({
-            product_name: productName,
-            category_id: categoryId,
-            price,
-            image,
-            brand
-        });
-        res.send();
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
-})
-
-//admin: edit products
-app.patch('/product', async (req, res) => {
-    const { productId, productName, categoryId, price, image, brand } = req.body;
-    const product = await Product.findOne({ where: { id: productId } });
-
-    productName && (product.product_name = productName);
-    categoryId && (product.category_id = categoryId);
-    price && (product.price = price);
-    image && (product.image = image);
-    brand && (product.brand = brand);
-
-    try {
-        await product.save();
-        res.send(product);
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
-})
-
 
 app.listen(1337, () => {
     console.log('the server is listening on port 1337')
