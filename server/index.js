@@ -231,6 +231,23 @@ app.patch('/item', async (req, res) => {
 })
 
 //empty cart
+app.delete('/cart', async (req, res) => {
+    const { customerId } = req.body;
+
+    const currentCart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    try {
+        await sequelize.sync();
+        CartItem.destroy({ where: { cart_id: currentCart.id } });
+        res.send({ message: `cart ${currentCart.id} is now empty` });
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 //add order details
 
