@@ -249,11 +249,21 @@ app.delete('/cart', async (req, res) => {
     }
 })
 
-//add order details
+//show order items + customer details
+app.get('/order', async (req, res) => {
+    const { customerId } = req.body;
 
-//get order details
+    const customer = await Customer.findOne({ where: { id: customerId } });
+    const currentCart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+    const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id }, include: { model: Product } })
 
-//make order
+    res.send({ cartItems, customer })
+})
+
+// create order
 
 //admin: add new products
 app.post('/product', async (req, res) => {
