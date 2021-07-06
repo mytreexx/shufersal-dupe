@@ -106,7 +106,6 @@ app.get('/search', async (req, res) => {
     res.send(products)
 })
 
-
 //check if there is an active cart and show items
 app.get('/cart', async (req, res) => {
     const { customerId } = req.body;
@@ -147,6 +146,30 @@ app.get('/cart', async (req, res) => {
 })
 
 //add product to cart
+app.post('/item', async (req, res) => {
+    const { customerId, productId, quantity } = req.body;
+
+    const currentCart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    const product = await Product.findOne({ where: { id: productId } })
+
+    try {
+        await sequelize.sync();
+        await CartItem.create({
+            product_id: productId,
+            cart_id: currentCart.id,
+            quantity,
+            total_price: product.price * quantity
+        });
+        res.send({totalPrice: total_price});
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 //remove product from cart
 
