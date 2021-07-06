@@ -164,7 +164,7 @@ app.post('/item', async (req, res) => {
             quantity,
             total_price: product.price * quantity
         });
-        res.send({totalPrice: total_price});
+        res.send({ totalPrice: total_price });
     } catch (e) {
         console.error(e)
         res.send(e)
@@ -172,6 +172,30 @@ app.post('/item', async (req, res) => {
 })
 
 //remove product from cart
+app.delete('/item', async (req, res) => {
+    const { customerId, productId } = req.body;
+
+    const currentCart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    try {
+        await sequelize.sync();
+        CartItem.destroy({
+            where: {
+                [Op.and]: [
+                    { product_id: productId },
+                    { cart_id: currentCart.id }
+                ]
+            }
+        });
+        res.send({ message: `removed item ${productId} from cart ${currentCart.id}` });
+    } catch (e) {
+        console.error(e)
+        res.send(e)
+    }
+})
 
 //update quantity of product in cart
 
