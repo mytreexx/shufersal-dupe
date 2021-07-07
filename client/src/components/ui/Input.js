@@ -20,7 +20,6 @@ const Container = styled.div`
     padding: 2px;
 
     label {
-        color: #2f416e;
         font-size: 16px;
         font-weight: 600;
     }
@@ -30,8 +29,6 @@ const Container = styled.div`
         outline: none;
         font-size: 22px;
         direction:RTL;
-        
-        color: #2f416e
     }
     :focus-within {
         border-bottom: #048bf3 1px solid;
