@@ -72,7 +72,7 @@ const Product = sequelize.define('product', {
         allowNull: false
     },
     price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false
     },
     image: {
@@ -114,7 +114,7 @@ const CartItem = sequelize.define('cart_item', {
         allowNull: false
     },
     total_price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false
     }
 }, {
@@ -131,7 +131,7 @@ const Order = sequelize.define('order', {
         allowNull: false
     },
     total_price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false
     },
     city: {
