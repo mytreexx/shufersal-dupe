@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 
     try {
         await sequelize.sync();
-        await Order.create({
+        const newOrder = await Order.create({
             customer_id: customerId,
             cart_id: currentCart.id,
             total_price: totalPrice,
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
             order_date: formattedDate,
             credit_card_last_digits: creditCard
         });
-        res.send({ message: `order complete!` });
+        res.send({ message: `order number ${newOrder.id} will be delivered at ${shippingDate}` });
     } catch (e) {
         console.error(e)
         res.send(e)

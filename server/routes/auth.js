@@ -9,7 +9,7 @@ const validateEmail = (email) => {
 }
 
 //register step 1
-router.post('/registration-check', async (req, res) => {
+router.post('/register-step-one', async (req, res) => {
     const { idNumber, email, password, confirmPassword } = req.body;
 
     let registeredIdNumber;
@@ -34,7 +34,7 @@ router.post('/registration-check', async (req, res) => {
 })
 
 //register step 2
-router.post('/register', async (req, res) => {
+router.post('/register-step-two', async (req, res) => {
     const { idNumber, email, password, firstName, lastName, city, street } = req.body;
     if (!firstName || !lastName || !city || !street) {
         res.send({ error: 'נא למלא את כל השדות' })
