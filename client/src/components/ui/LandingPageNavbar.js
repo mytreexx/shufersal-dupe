@@ -6,49 +6,88 @@ import profileIcon from '../../assets/profile-icon.png';
 import locationIcon from '../../assets/gps-icon.png';
 import callCenterIcon from '../../assets/call-center-agent-icon.png'
 import accessibility from '../../assets/disabled-sign-icon.png'
+import supermarket from '../../assets/Supermarket2.png';
+import mall from '../../assets/Mall-2.png';
+import be from '../../assets/Be2.png';
+import green from '../../assets/Green2.png';
+import business from '../../assets/Business.png';
 
 const LandingPageNavbar = () => {
     return (
-        <Container>
-            <AuthContainer>
-                <div className="auth-section">
-                    <img src={ShoppingCart} alt="cart" />
-                    <div >
-                        <span><strong>שלום אורח</strong></span>
-                        <span>ברוך הבא לשופרסל <a>התחברות</a> | <a>הרשמה</a></span>
+        <Nav>
+            <MainContainer>
+                <AuthContainer>
+                    <div className="auth-section">
+                        <img src={ShoppingCart} alt="cart" />
+                        <div >
+                            <span><strong>שלום אורח</strong></span>
+                            <span>ברוך הבא לשופרסל <a>התחברות</a> | <a>הרשמה</a></span>
+                        </div>
                     </div>
+
+                    <StartShopping>להמשך קניה ב<img src={shufersalOnline}></img></StartShopping>
+                </AuthContainer>
+
+                <NavigationContainer>
+                    <Icon>
+                        <img src={profileIcon} alt="profile" />
+                        <span>האיזור האישי במועדון</span>
+                    </Icon>
+                    <Dot />
+                    <Icon>
+                        <img src={locationIcon} alt="gps" />
+                        <span>איתור סניפים</span>
+                    </Icon>
+                    <Dot />
+                    <Icon>
+                        <img src={accessibility} alt="accessibility" />
+                        <span>נגישות</span>
+                    </Icon>
+                    <Dot />
+                    <Icon>
+                        <img src={callCenterIcon} alt="call center" />
+                        <span>שירות לקוחות</span>
+                    </Icon>
+                    <img src={shufersalLogo} />
+                </NavigationContainer>
+            </MainContainer>
+
+            <SecondaryContainer>
+                <div>
+                    <img src={supermarket} />
+                    <span><strong>סופרמרקט</strong></span>
                 </div>
 
-                <StartShopping>להמשך קניה ב<img src={shufersalOnline}></img></StartShopping>
-            </AuthContainer>
+                <div>
+                    <img src={mall} />
+                    <span><strong>הקניון - הכל לבית</strong></span>
+                </div>
 
-            <NavigationContainer>
-                <Icon>
-                    <img src={profileIcon} alt="profile" />
-                    <span>האיזור האישי במועדון</span>
-                </Icon>
-                <Dot/>
-                <Icon>
-                    <img src={locationIcon} alt="gps" />
-                    <span>איתור סניפים</span>
-                </Icon>
-                <Dot/>
-                <Icon>
-                    <img src={accessibility} alt="accessibility" />
-                    <span>נגישות</span>
-                </Icon>
-                <Dot/>
-                <Icon>
-                    <img src={callCenterIcon} alt="call center" />
-                    <span>שירות לקוחות</span>
-                </Icon>
-                <img src={shufersalLogo} />
-            </NavigationContainer>
-        </Container>
+                <div>
+                    <img src={be} />
+                    <span><strong>פארם וקוסמטיקה</strong></span>
+                </div>
+
+                <div>
+                    <img src={green} />
+                    <span><strong>green בריאות וטבע</strong></span>
+                </div>
+
+                <div>
+                    <img src={business} />
+                    <span>שופרסל<br />עסקים</span>
+                </div>
+
+                <div>
+                    <span>תו<br />הזהב</span>
+                </div>
+            </SecondaryContainer>
+        </Nav>
+
     )
 }
 
-const Container = styled.div`
+const MainContainer = styled.div`
     display: flex;
     justify-content: space-between;
     height: 60px;
@@ -124,7 +163,7 @@ const Icon = styled.div`
     color: #048BF3;
     filter: brightness(50%); 
     line-height: 0.8;
-    padding: 5px 0;
+    padding: 8px 0;
     margin: 0 10px;
     cursor: pointer;
     transition: .5s;
@@ -148,7 +187,25 @@ const Dot = styled.div`
     border-radius: 50%;
     border: 3px solid #2f416e;
     align-self: flex-end;
-    margin-bottom: 6px;
+    margin-bottom: 9px;
+`;
+
+const Nav = styled.div`
+    box-shadow: 0 1px 8px 0 rgb(47 65 110 / 30%);
+`;
+
+const SecondaryContainer = styled.div`
+    display: flex;
+    height: 75px;
+    align-items: center;
+    font-size: 22px;
+
+    div {
+        display: flex;
+        align-items: center;
+        margin: 0 20px;
+        text-align: center;
+    }
 `;
 
 export default LandingPageNavbar;
