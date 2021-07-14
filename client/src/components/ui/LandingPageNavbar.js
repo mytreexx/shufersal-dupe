@@ -12,7 +12,7 @@ import be from '../../assets/Be2.png';
 import green from '../../assets/Green2.png';
 import business from '../../assets/Business.png';
 
-const LandingPageNavbar = () => {
+const LandingPageNavbar = ({ customerName, messageToUser, hasActiveCart }) => {
     return (
         <Nav>
             <MainContainer>
@@ -20,12 +20,12 @@ const LandingPageNavbar = () => {
                     <div className="auth-section">
                         <img src={ShoppingCart} alt="cart" />
                         <div >
-                            <span><strong>שלום אורח</strong></span>
-                            <span>ברוך הבא לשופרסל <a>התחברות</a> | <a>הרשמה</a></span>
+                            <span><strong>שלום {customerName}</strong></span>
+                            <span>{messageToUser} <a>התחברות</a> | <a>הרשמה</a></span>
                         </div>
                     </div>
 
-                    <StartShopping>להמשך קניה ב<img src={shufersalOnline}></img></StartShopping>
+                    <StartShopping>{hasActiveCart ? "להמשך קניה ב" : "התחלת קניה ב"}<img src={shufersalOnline}></img></StartShopping>
                 </AuthContainer>
 
                 <NavigationContainer>

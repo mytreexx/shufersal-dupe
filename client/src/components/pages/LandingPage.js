@@ -1,14 +1,44 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
 import LandingPageNavbar from '../ui/LandingPageNavbar';
 import Carousel from '../ui/Carousel';
+import advertisement1 from '../../assets/advertisement1.jpg';
+import advertisement2 from '../../assets/advertisement2.jpg';
+import { getStoreDetails } from '../../utils';
 
-import advertisement1 from '../../assets/advertisement1.jpg'
-import advertisement2 from '../../assets/advertisement2.jpg'
 
 const LandingPage = () => {
+    const [numberOfProducts, setNumberOfProducts] = useState();
+    const [numberOfOrders, setNumberOfOrders] = useState();
+    const [messageToUser, setMessageToUser] = useState();
+    const [hasActiveCart, setHasActiveCart] = useState();
+    const [customerName, setCustomerName] = useState();
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            customerId: 1,
+        }),
+    };
+
+    useEffect(() => {
+        getStoreDetails(requestOptions)
+            .then(response => response.json())
+            .then((result) => {
+                console.log(result)
+                setNumberOfProducts(result.numberOfProducts);
+                setNumberOfOrders(result.numberOfOrders);
+                setMessageToUser(result.messageToUser);
+                setHasActiveCart(result.hasActiveCart);
+                setCustomerName(result.customerName)
+            })
+    }, []);
+
     return (
         <Container>
-            <LandingPageNavbar />
+            <LandingPageNavbar customerName={customerName} messageToUser={messageToUser} hasActiveCart={hasActiveCart} />
             <Carousel />
             <Announcement>
                 לקוחות שופרסל Online,
@@ -23,12 +53,12 @@ const LandingPage = () => {
             <Main>
                 <Card>
                     <div>מספר המוצרים אונליין</div>
-                    <strong>68</strong>
+                    <strong>{numberOfProducts}</strong>
                 </Card>
 
                 <Card>
                     <div>מספר ההזמנות שבוצעו</div>
-                    <strong>23</strong>
+                    <strong>{numberOfOrders}</strong>
                 </Card>
                 <img src={advertisement1} />
             </Main>
