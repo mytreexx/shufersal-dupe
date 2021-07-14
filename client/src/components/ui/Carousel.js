@@ -28,8 +28,6 @@ const Carousel = () => {
         return () => clearInterval(interval)
     }, []);
 
-
-
     return (
         <Container>
             <Slide src={banners[currentSlide]} alt="ad banner" />
