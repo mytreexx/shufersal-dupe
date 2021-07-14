@@ -40,7 +40,7 @@ const Carousel = () => {
 
                 <div>
                     {banners.map((banner, index) =>
-                        <Dot {...(currentSlide === index && { className: 'active' })} onClick={() => { setCurrentSlide(index) }} />
+                        <Dot {...(currentSlide === index && { className: 'active' })} onClick={() => { setCurrentSlide(index) }} key={index} />
                     )}
                 </div>
 
