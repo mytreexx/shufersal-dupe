@@ -4,16 +4,17 @@ const { Customer, Product, ShoppingCart, Order } = require('../models');
 
 
 //get general store details 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     const { customerId } = req.body;
 
     const products = await Product.findAll();
     const orders = await Order.findAll();
 
+    let messageToUser = "ברוך הבא לשופרסל";
+    let hasActiveCart = false;
+
     if (customerId) {
         const customer = await Customer.findOne({ where: { id: customerId } });
-        let messageToUser;
-
         const cart = await ShoppingCart.findOne({
             where: { customer_id: customerId },
             order: [['id', 'DESC']],
@@ -22,25 +23,29 @@ router.get('/', async (req, res) => {
         if (cart) {
             const order = await Order.findOne({ where: { cart_id: cart.id } })
             if (order) {
-                messageToUser = `ההזמנה האחרונה שלך בוצעה בתאריך ${order.order_date}`;
+                messageToUser = `העגלה שלך ריקה, הזמנה אחרונה בוצעה ב-${order.order_date}`;
             } else {
-                messageToUser = `קיימת עגלת קניות מהתאריך ${cart.created_at}`;
+                messageToUser = `מוזמנים להמשיך בתהליך הקניה מ-${cart.created_at}`;
+                hasActiveCart = true;
             }
-        } else {
-            messageToUser = `ברוכים הבאים ${customer.first_name}`;
         }
         res.send({
             numberOfProducts: products.length,
             numberOfOrders: orders.length,
-            messageToUser
+            messageToUser,
+            hasActiveCart,
+            customerName: customer.first_name
         })
-    } else {
+    }
+    else {
         res.send({
             numberOfProducts: products.length,
             numberOfOrders: orders.length,
+            messageToUser,
+            hasActiveCart,
+            customerName: "אורח"
         })
     }
-
 })
 
 module.exports = router;
