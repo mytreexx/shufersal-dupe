@@ -93,6 +93,7 @@ const MainContainer = styled.div`
     height: 60px;
     font-size: 14px;
     border-bottom: 1px solid rgb(224 226 233);
+    background-color: white;
 
     img {
         height: 40px;
@@ -199,6 +200,7 @@ const SecondaryContainer = styled.div`
     height: 75px;
     align-items: center;
     font-size: 22px;
+    background-color: white;
 
     div {
         display: flex;
