@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { Link, useHistory } from 'react-router-dom';
+
 import ShoppingCart from '../../assets/shopping-cart.png';
 import shufersalOnline from '../../assets/shufersalOnlineLogo.png';
 import shufersalLogo from '../../assets/shufersal-logo.webp';
@@ -21,7 +23,7 @@ const LandingPageNavbar = ({ customerName, messageToUser, hasActiveCart }) => {
                         <img src={ShoppingCart} alt="cart" />
                         <div >
                             <span><strong>שלום {customerName}</strong></span>
-                            <span>{messageToUser} <a>התחברות</a> | <a>הרשמה</a></span>
+                            <span>{messageToUser} <Link to="/login">התחברות</Link> | <Link to="/register">הרשמה</Link></span>
                         </div>
                     </div>
 
@@ -121,7 +123,7 @@ const AuthContainer = styled.div`
     padding: 0 40px 0 20px;
 
 a {
-    text-decoration: underline;
+    color: inherit;
     font-weight: bold;
 }
 `
