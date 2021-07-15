@@ -1,28 +1,60 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import SecondaryNavbar from '../ui/SecondaryNavbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
 import bgImage from '../../assets/register-bg.jpg';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
+import { checkForRegistration } from '../../utils'
 
 
 const Register = () => {
     const [activeForm, setActiveForm] = useState(0);
 
+    const [idNumber, setIdNumber] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+
+    const history = useHistory();
+
     const returnToSFirstStep = () => {
         setActiveForm(0)
     }
 
-    const checkForm = () => {
-        setActiveForm(1)
+    const checkForm = (e) => {
+        e.preventDefault();
+        console.log(idNumber, email, password, confirmPassword)
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                idNumber,
+                email,
+                password,
+                confirmPassword
+            }),
+        };
+
+        checkForRegistration(requestOptions)
+            .then((response) => {
+                if (response.ok) {
+                    setActiveForm(1);
+                } else {
+                    response.json()
+                        .then((response) => toast.error(response.error));
+                }
+            });
     }
 
     const submitForm = () => {
         setActiveForm(2)
     }
-
 
     return (
         <>
@@ -34,45 +66,58 @@ const Register = () => {
             <MainContainer>
                 <Registration>
                     <Header>הרשמה לאתר שופרסל</Header>
+                    <ToastContainer
+                        position="bottom-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                    />
 
-                    <Form {...((activeForm !== 0 || activeForm === 2) && { className: "disabled-form" })}>
+                    <Form
+                        onSubmit={checkForm}
+                        {...((activeForm !== 0 || activeForm === 2) && { className: "disabled-form" })}
+                    >
                         <Input
                             required
                             label="תעודת זהות"
                             type="text"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={idNumber}
+                            onChange={(e) => setIdNumber(e.target.value)}
                         />
 
                         <Input
                             required
                             label="דואר אלקטרוני"
                             type="text"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
 
                         <Input
                             required
                             label="סיסמה כניסה לאתר"
                             type="password"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
 
                         <Input
                             required
                             label="יש להזין סיסמה שוב"
                             type="password"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
 
                         <div className='buttons'>
                             <Button
-                                type="button"
+                                type="submit"
                                 small
-                                onClick={checkForm}
                             >
                                 שמירה
                             </Button>
@@ -116,7 +161,7 @@ const Register = () => {
                             <Button
                                 type="button"
                                 small
-                            onClick={submitForm}
+                                onClick={submitForm}
                             >
                                 הרשמה
                             </Button>
@@ -163,6 +208,11 @@ const Registration = styled.div`
         filter: grayscale(1) brightness(3);
         pointer-events: none;
     }
+
+    .Toastify__toast {
+        background-color: #D51C4A;
+        margin-top: 100%;
+    }
 `;
 
 const Header = styled.div`
@@ -176,7 +226,7 @@ const Header = styled.div`
     padding: 0 100px;
 `;
 
-const Form = styled.div`
+const Form = styled.form`
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
