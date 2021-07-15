@@ -53,7 +53,7 @@ router.post('/register-step-two', async (req, res) => {
             res.send();
         } catch (e) {
             console.error(e)
-            res.send(e)
+            res.status(401).send(e)
         }
     }
 })
@@ -66,9 +66,9 @@ router.post('/login', async (req, res) => {
     console.log(loggingInUser)
 
     if (!loggingInUser) {
-        res.send({ error: 'משתמש לא נמצא' })
+        res.status(401).send({ error: 'משתמש לא נמצא' })
     } else if (loggingInUser.password !== password) {
-        res.send({ error: 'סיסמה לא נכונה' })
+        res.status(401).send({ error: 'סיסמה לא נכונה' })
     } else {
         res.send({ userId: loggingInUser.id });
     }
