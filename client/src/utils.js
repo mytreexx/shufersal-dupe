@@ -11,3 +11,7 @@ export const checkForRegistration = (requestOptions) => {
 export const completeRegistration = (requestOptions) => {
     return fetch(`${serverUrl}/register-step-two`, requestOptions)
 }
+
+export const getLogin = (requestOptions) => {
+    return fetch(`${serverUrl}/login`, requestOptions)
+}
