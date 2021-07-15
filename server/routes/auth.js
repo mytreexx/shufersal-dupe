@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { sequelize, Customer } = require('../models');
+const jwt = require('jsonwebtoken');
 
 
 const validateEmail = (email) => {
@@ -37,7 +38,7 @@ router.post('/register-step-one', async (req, res) => {
 router.post('/register-step-two', async (req, res) => {
     const { idNumber, email, password, firstName, lastName, city, street } = req.body;
     if (!firstName || !lastName || !city || !street) {
-        res.send({ error: 'נא למלא את כל השדות' })
+        res.status(401).send({ error: 'נא למלא את כל השדות' })
     } else {
         try {
             await sequelize.sync();
@@ -70,7 +71,11 @@ router.post('/login', async (req, res) => {
     } else if (loggingInUser.password !== password) {
         res.status(401).send({ error: 'סיסמה לא נכונה' })
     } else {
-        res.send({ userId: loggingInUser.id });
+        jwt.sign({ loggingInUser }, 'supersecretkey', (err, token) => {
+            res.json({
+                token
+            });
+        });
     }
 })
 

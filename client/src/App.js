@@ -1,4 +1,5 @@
-import { Switch, Route, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import './App.css';
 import LandingPage from './components/pages/LandingPage';
@@ -7,6 +8,18 @@ import Login from './components/pages/Login';
 
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(
+    localStorage.getItem('currentUser')
+  );
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('currentUser', currentUser);
+    } else {
+      localStorage.removeItem('currentUser');
+    }
+  }, [currentUser]);
+
   return (
     <Switch>
       <Route exact path="/">
@@ -18,7 +31,10 @@ function App() {
       </Route>
 
       <Route path="/login">
-        <Login />
+        <Login
+          onUserChange={setCurrentUser}
+          currentUser={currentUser}
+        />
       </Route>
     </Switch>
   );

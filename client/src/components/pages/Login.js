@@ -12,7 +12,7 @@ import Button from '../ui/Button';
 import { getLogin } from '../../utils'
 
 
-const Login = () => {
+const Login = ({ onUserChange }) => {
     const [idNumber, setIdNumber] = useState();
     const [password, setPassword] = useState();
 
@@ -34,6 +34,8 @@ const Login = () => {
         getLogin(requestOptions)
             .then((response) => {
                 if (response.ok) {
+                    response.json()
+                        .then(response => onUserChange(response.token))
                     history.push('/');
                 } else {
                     response.json()
