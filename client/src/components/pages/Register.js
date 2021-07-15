@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import SecondaryNavbar from '../ui/SecondaryNavbar';
@@ -7,7 +7,23 @@ import bgImage from '../../assets/register-bg.jpg';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 
+
 const Register = () => {
+    const [activeForm, setActiveForm] = useState(0);
+
+    const returnToSFirstStep = () => {
+        setActiveForm(0)
+    }
+
+    const checkForm = () => {
+        setActiveForm(1)
+    }
+
+    const submitForm = () => {
+        setActiveForm(2)
+    }
+
+
     return (
         <>
             <NavContainer>
@@ -19,7 +35,7 @@ const Register = () => {
                 <Registration>
                     <Header>הרשמה לאתר שופרסל</Header>
 
-                    <Form className="disabled-form">
+                    <Form {...((activeForm !== 0 || activeForm === 2) && { className: "disabled-form" })}>
                         <Input
                             required
                             label="תעודת זהות"
@@ -56,14 +72,14 @@ const Register = () => {
                             <Button
                                 type="button"
                                 small
-                            // onClick={clearForm}
+                                onClick={checkForm}
                             >
                                 שמירה
                             </Button>
                         </div>
                     </Form>
 
-                    <Form >
+                    <Form {...((activeForm !== 1 || activeForm === 2) && { className: "disabled-form" })}>
                         <Input
                             required
                             label="שם פרטי"
@@ -100,7 +116,7 @@ const Register = () => {
                             <Button
                                 type="button"
                                 small
-                            // onClick={clearForm}
+                            onClick={submitForm}
                             >
                                 הרשמה
                             </Button>
@@ -109,7 +125,7 @@ const Register = () => {
                                 type="button"
                                 small
                                 light
-                            // onClick={clearForm}
+                                onClick={returnToSFirstStep}
                             >
                                 חזרה
                             </Button>
