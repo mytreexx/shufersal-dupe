@@ -8,11 +8,8 @@ import profileIcon from '../../assets/profile-icon.png';
 import locationIcon from '../../assets/gps-icon.png';
 import callCenterIcon from '../../assets/call-center-agent-icon.png'
 import accessibility from '../../assets/disabled-sign-icon.png'
-import supermarket from '../../assets/Supermarket2.png';
-import mall from '../../assets/Mall-2.png';
-import be from '../../assets/Be2.png';
-import green from '../../assets/Green2.png';
-import business from '../../assets/Business.png';
+import SecondaryNavbar from './SecondaryNavbar';
+
 
 const LandingPageNavbar = ({ customerName, messageToUser, hasActiveCart }) => {
     return (
@@ -54,38 +51,8 @@ const LandingPageNavbar = ({ customerName, messageToUser, hasActiveCart }) => {
                 </NavigationContainer>
             </MainContainer>
 
-            <SecondaryContainer>
-                <div>
-                    <img src={supermarket} />
-                    <span><strong>סופרמרקט</strong></span>
-                </div>
-
-                <div>
-                    <img src={mall} />
-                    <span><strong>הקניון - הכל לבית</strong></span>
-                </div>
-
-                <div>
-                    <img src={be} />
-                    <span><strong>פארם וקוסמטיקה</strong></span>
-                </div>
-
-                <div>
-                    <img src={green} />
-                    <span><strong>green בריאות וטבע</strong></span>
-                </div>
-
-                <div>
-                    <img src={business} />
-                    <span>שופרסל<br />עסקים</span>
-                </div>
-
-                <div>
-                    <span>תו<br />הזהב</span>
-                </div>
-            </SecondaryContainer>
+            <SecondaryNavbar />
         </Nav>
-
     )
 }
 
@@ -195,21 +162,6 @@ const Dot = styled.div`
 
 const Nav = styled.div`
     box-shadow: 0 1px 8px 0 rgb(47 65 110 / 30%);
-`;
-
-const SecondaryContainer = styled.div`
-    display: flex;
-    height: 75px;
-    align-items: center;
-    font-size: 22px;
-    background-color: white;
-
-    div {
-        display: flex;
-        align-items: center;
-        margin: 0 20px;
-        text-align: center;
-    }
 `;
 
 export default LandingPageNavbar;
