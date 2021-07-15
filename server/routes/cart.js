@@ -49,29 +49,35 @@ router.get('/', verifyToken, (req, res) => {
 })
 
 //add product to cart
-router.post('/', async (req, res) => {
-    const { customerId, productId, quantity } = req.body;
+router.post('/', verifyToken, async (req, res) => {
+    const { productId, quantity } = req.body;
 
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            const currentCart = await ShoppingCart.findOne({
+                where: { customer_id: authData.loggingInUser.id },
+                order: [['id', 'DESC']],
+            });
+
+            const product = await Product.findOne({ where: { id: productId } })
+
+            try {
+                await sequelize.sync();
+                await CartItem.create({
+                    product_id: productId,
+                    cart_id: currentCart.id,
+                    quantity,
+                    total_price: product.price * quantity
+                });
+                res.send({ totalPrice: product.price * quantity });
+            } catch (e) {
+                console.error(e)
+                res.send(e)
+            }
+        }
     });
-
-    const product = await Product.findOne({ where: { id: productId } })
-
-    try {
-        await sequelize.sync();
-        await CartItem.create({
-            product_id: productId,
-            cart_id: currentCart.id,
-            quantity,
-            total_price: product.price * quantity
-        });
-        res.send({ totalPrice: product.price * quantity });
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
 })
 
 //remove product from cart
