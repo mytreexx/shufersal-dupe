@@ -19,15 +19,15 @@ router.post('/register-step-one', async (req, res) => {
     }
 
     if (!idNumber || !email || !password || !confirmPassword) {
-        res.send({ error: 'נא למלא את כל השדות' })
+        res.status(401).send({ error: 'נא למלא את כל השדות' })
     } else if (!validateEmail(email)) {
-        res.send({ error: 'כתובת אימייל אינה תקינה' })
+        res.status(401).send({ error: 'כתובת אימייל אינה תקינה' })
     } else if (registeredIdNumber) {
-        res.send({ error: 'תעודת זהות קיימת במערכת' })
+        res.status(401).send({ error: 'תעודת זהות קיימת במערכת' })
     } else if (password && password.length < 6) {
-        res.send({ error: 'אורך סיסמה צריך להיות לפחות שישה תווים' })
+        res.status(401).send({ error: 'אורך סיסמה צריך להיות לפחות שישה תווים' })
     } else if (password !== confirmPassword) {
-        res.send({ error: 'סיסמאות לא תואמות' })
+        res.status(401).send({ error: 'סיסמאות לא תואמות' })
     } else {
         res.send()
     }
