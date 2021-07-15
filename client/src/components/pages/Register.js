@@ -9,7 +9,7 @@ import Logo from '../../assets/Shufersal-logo-large.png';
 import bgImage from '../../assets/register-bg.jpg';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import { checkForRegistration } from '../../utils'
+import { checkForRegistration, completeRegistration } from '../../utils'
 
 
 const Register = () => {
@@ -19,6 +19,11 @@ const Register = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
+
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
+    const [city, setCity] = useState();
+    const [street, setStreet] = useState();
 
     const history = useHistory();
 
@@ -52,8 +57,35 @@ const Register = () => {
             });
     }
 
-    const submitForm = () => {
-        setActiveForm(2)
+    const submitForm = (e) => {
+        e.preventDefault();
+        console.log(idNumber, email, password, confirmPassword, firstName, lastName, street, city)
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                idNumber,
+                email,
+                password,
+                confirmPassword,
+                firstName,
+                lastName,
+                street,
+                city
+            }),
+        };
+
+        completeRegistration(requestOptions)
+            .then((response) => {
+                if (response.ok) {
+                    setActiveForm(2);
+                    history.push('/');
+                } else {
+                    response.json()
+                        .then((response) => toast.error(response.error));
+                }
+            });
     }
 
     return (
@@ -124,44 +156,46 @@ const Register = () => {
                         </div>
                     </Form>
 
-                    <Form {...((activeForm !== 1 || activeForm === 2) && { className: "disabled-form" })}>
+                    <Form
+                        onSubmit={submitForm}
+                        {...((activeForm !== 1 || activeForm === 2) && { className: "disabled-form" })}
+                    >
                         <Input
                             required
                             label="שם פרטי"
                             type="text"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                         />
 
                         <Input
                             required
                             label="שם משפחה"
                             type="text"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                         />
 
                         <Input
                             required
                             label="עיר מגורים"
                             type="text"
-                        // value={city}
-                        // onChange={(e) => setCity(e.target.value)}
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
                         />
 
                         <Input
                             required
                             label="רחוב"
                             type="text"
-                        // value={startingDate}
-                        // onChange={(e) => setStartingDate(e.target.value)}
+                            value={street}
+                            onChange={(e) => setStreet(e.target.value)}
                         />
 
                         <div className='buttons'>
                             <Button
-                                type="button"
+                                type="submit"
                                 small
-                                onClick={submitForm}
                             >
                                 הרשמה
                             </Button>
@@ -211,7 +245,6 @@ const Registration = styled.div`
 
     .Toastify__toast {
         background-color: #D51C4A;
-        margin-top: 100%;
     }
 `;
 
