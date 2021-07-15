@@ -1,45 +1,51 @@
 const express = require('express');
 const router = express.Router();
 const { Op, sequelize, Product, ShoppingCart, CartItem, Order } = require('../models');
+const jwt = require('jsonwebtoken');
+const verifyToken = require('../utils/middlewares/jwtoken');
 
 
 //check if there is an active cart and show items
-router.get('/', async (req, res) => {
-    const { customerId } = req.body;
-
+router.get('/', verifyToken, (req, res) => {
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, "-");
 
-    const createNewCart = async () => {
-        try {
-            await sequelize.sync();
-            await ShoppingCart.create({
-                customer_id: customerId,
-                created_at: formattedDate
-            });
-            res.send({ message: 'created new cart!' });
-        } catch (e) {
-            console.error(e)
-            res.send(e)
-        }
-    }
-
-    const cart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
-    });
-
-    if (cart) {
-        const order = await Order.findOne({ where: { cart_id: cart.id } })
-        if (order) {
-            createNewCart();
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
         } else {
-            const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
-            res.send(cartItems)
+            const createNewCart = async () => {
+                try {
+                    await sequelize.sync();
+                    await ShoppingCart.create({
+                        customer_id: authData.loggingInUser.id,
+                        created_at: formattedDate
+                    });
+                    res.send({ message: 'created new cart!' });
+                } catch (e) {
+                    console.error(e)
+                    res.send(e)
+                }
+            }
+
+            const cart = await ShoppingCart.findOne({
+                where: { customer_id: authData.loggingInUser.id },
+                order: [['id', 'DESC']],
+            });
+
+            if (cart) {
+                const order = await Order.findOne({ where: { cart_id: cart.id } })
+                if (order) {
+                    createNewCart();
+                } else {
+                    const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
+                    res.send(cartItems)
+                }
+            } else {
+                createNewCart();
+            }
         }
-    } else {
-        createNewCart();
-    }
+    });
 })
 
 //add product to cart
