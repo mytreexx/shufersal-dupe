@@ -20,8 +20,9 @@ const Container = styled.div`
     padding: 2px;
 
     label {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
+        align-self: flex-start;
     }
 
     input {
@@ -29,6 +30,7 @@ const Container = styled.div`
         outline: none;
         font-size: 22px;
         direction:RTL;
+        width: 95%
     }
     :focus-within {
         border-bottom: #048bf3 1px solid;
