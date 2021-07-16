@@ -47,7 +47,12 @@ const Store = ({ currentUser }) => {
 
             <CategoriesNav>
                 {categories && categories.map(category =>
-                    <div onClick={() => { getCategoryItems(category.id) }}>
+                    <div
+                        key={category.id}
+                        onClick={() => {
+                            getCategoryItems(category.id)
+                        }}
+                    >
                         {category.category}
                     </div>
                 )}
@@ -60,6 +65,7 @@ const Store = ({ currentUser }) => {
             <ItemsContainer>
                 {products && products.map(product =>
                     <ProductItem
+                        key={product.id}
                         id={product.id}
                         name={product.product_name}
                         catagoryId={product.category_id}
