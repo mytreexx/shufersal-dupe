@@ -49,7 +49,7 @@ router.get('/', verifyToken, (req, res) => {
 })
 
 //add product to cart
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', verifyToken, (req, res) => {
     const { productId, quantity } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
@@ -85,7 +85,6 @@ router.delete('/item', verifyToken, (req, res) => {
     const { productId } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
-        console.log(authData)
         if (err) {
             res.sendStatus(403);
         } else {
@@ -114,36 +113,42 @@ router.delete('/item', verifyToken, (req, res) => {
 })
 
 //update quantity of an item in cart
-router.patch('/', async (req, res) => {
-    const { customerId, productId, newQuantity } = req.body;
+router.patch('/', verifyToken, (req, res) => {
+    const { productId, newQuantity } = req.body;
 
-    const product = await Product.findOne({ where: { id: productId } })
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            const product = await Product.findOne({ where: { id: productId } })
 
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
-    });
+            const currentCart = await ShoppingCart.findOne({
+                where: { customer_id: authData.loggingInUser.id },
+                order: [['id', 'DESC']],
+            });
 
-    const itemToUpdate = await CartItem.findOne({
-        where: {
-            [Op.and]: [
-                { product_id: productId },
-                { cart_id: currentCart.id }
-            ]
+            const itemToUpdate = await CartItem.findOne({
+                where: {
+                    [Op.and]: [
+                        { product_id: productId },
+                        { cart_id: currentCart.id }
+                    ]
+                }
+            });
+
+            itemToUpdate.quantity = newQuantity;
+            itemToUpdate.total_price = (newQuantity * product.price);
+
+            try {
+                await sequelize.sync();
+                itemToUpdate.save();
+                res.send(itemToUpdate);
+            } catch (e) {
+                console.error(e)
+                res.send(e)
+            }
         }
     });
-
-    itemToUpdate.quantity = newQuantity;
-    itemToUpdate.total_price = (newQuantity * product.price);
-
-    try {
-        await sequelize.sync();
-        itemToUpdate.save();
-        res.send(itemToUpdate);
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
 })
 
 //empty cart
