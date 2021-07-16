@@ -1,20 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const { sequelize, Customer, Product, ShoppingCart, CartItem, Order } = require('../models');
+const jwt = require('jsonwebtoken');
+const verifyTokenOrError = require('../utils/middlewares/JWT/verifyTokenOrError');
 
 
 //show order items + customer details
-router.get('/', async (req, res) => {
-    const { customerId } = req.body;
+router.get('/', verifyTokenOrError, (req, res) => {
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            const customer = await Customer.findOne({ where: { id: authData.loggingInUser.id } });
+            const currentCart = await ShoppingCart.findOne({
+                where: { customer_id: authData.loggingInUser.id },
+                order: [['id', 'DESC']],
+            });
 
-    const customer = await Customer.findOne({ where: { id: customerId } });
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
+            const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id }, include: { model: Product } })
+            res.send({ cartItems, customer })
+        }
     });
-    const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id }, include: { model: Product } })
-
-    res.send({ cartItems, customer })
 })
 
 // create order
