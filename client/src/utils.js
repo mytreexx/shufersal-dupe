@@ -97,3 +97,18 @@ export const onGetCategoryItems = (currentUser, categoryId) => {
 
     return fetch(`${serverUrl}/product/`, requestOptions)
 }
+
+export const getSearchedProducts = (currentUser, searchTerm) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        },
+        body: JSON.stringify({
+            searchTerm
+        }),
+    };
+
+    return fetch(`${serverUrl}/product/search`, requestOptions)
+}
