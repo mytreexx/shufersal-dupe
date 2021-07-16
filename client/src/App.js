@@ -5,6 +5,7 @@ import './App.css';
 import LandingPage from './components/pages/LandingPage';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
+import Store from './components/pages/Store';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/">
-        <LandingPage />
+        <LandingPage currentUser={currentUser} />
       </Route>
 
       <Route path="/register">
@@ -35,6 +36,10 @@ function App() {
           onUserChange={setCurrentUser}
           currentUser={currentUser}
         />
+      </Route>
+
+      <Route path="/store">
+        <Store currentUser={currentUser} />
       </Route>
     </Switch>
   );
