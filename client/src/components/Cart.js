@@ -4,16 +4,8 @@ import styled from 'styled-components';
 import { getCartItems } from '../utils';
 import CartItem from './CartItem';
 
-const Cart = ({ currentUser }) => {
-    const [cartItems, setCartItems] = useState();
+const Cart = ({ currentUser, cartItems }) => {
 
-    useEffect(() => {
-        getCartItems(currentUser)
-            .then(response => response.json())
-            .then(data => {
-                setCartItems(data)
-            })
-    }, []);
     return (
         <Container>
             {cartItems && cartItems.map(item =>
