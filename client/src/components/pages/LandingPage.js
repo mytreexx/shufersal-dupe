@@ -8,7 +8,7 @@ import advertisement2 from '../../assets/advertisement2.jpg';
 import { getStoreDetails } from '../../utils';
 
 
-const LandingPage = () => {
+const LandingPage = ({ currentUser }) => {
     const [numberOfProducts, setNumberOfProducts] = useState();
     const [numberOfOrders, setNumberOfOrders] = useState();
     const [messageToUser, setMessageToUser] = useState();
@@ -17,10 +17,10 @@ const LandingPage = () => {
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            customerId: 1,
-        }),
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
     };
 
     useEffect(() => {

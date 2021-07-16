@@ -1,6 +1,14 @@
 const serverUrl = process.env.REACT_APP_SERVER_URL || '';
 
-export const getStoreDetails = (requestOptions) => {
+export const getStoreDetails = (currentUser) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
+    };
+    
     return fetch(`${serverUrl}/details`, requestOptions)
 }
 
