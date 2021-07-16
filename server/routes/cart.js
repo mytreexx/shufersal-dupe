@@ -152,22 +152,26 @@ router.patch('/', verifyToken, (req, res) => {
 })
 
 //empty cart
-router.delete('/', async (req, res) => {
-    const { customerId } = req.body;
+router.delete('/', verifyToken, (req, res) => {
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            const currentCart = await ShoppingCart.findOne({
+                where: { customer_id: authData.loggingInUser.id },
+                order: [['id', 'DESC']],
+            });
 
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
+            try {
+                await sequelize.sync();
+                CartItem.destroy({ where: { cart_id: currentCart.id } });
+                res.send({ message: `cart ${currentCart.id} is now empty` });
+            } catch (e) {
+                console.error(e)
+                res.send(e)
+            }
+        }
     });
-
-    try {
-        await sequelize.sync();
-        CartItem.destroy({ where: { cart_id: currentCart.id } });
-        res.send({ message: `cart ${currentCart.id} is now empty` });
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
 })
 
 module.exports = router;
