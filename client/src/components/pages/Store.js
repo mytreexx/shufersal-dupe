@@ -3,7 +3,11 @@ import styled from 'styled-components';
 
 import SecondaryNavbar from '../ui/SecondaryNavbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
+import ProductItem from '../ProductItem';
+import Carousel from '../ui/Carousel';
+import SearchInput from '../ui/Search';
 import { getCategoriesFromServer, getAllProducts, onGetCategoryItems } from '../../utils';
+
 
 
 const Store = ({ currentUser }) => {
@@ -49,7 +53,22 @@ const Store = ({ currentUser }) => {
                 )}
             </CategoriesNav>
 
-            {products && products.map(product => <div>{product.product_name}</div>)}
+            <SearchInput setProducts={setProducts} />
+
+            <Carousel />
+
+            <ItemsContainer>
+                {products && products.map(product =>
+                    <ProductItem
+                        id={product.id}
+                        name={product.product_name}
+                        catagoryId={product.category_id}
+                        price={product.price}
+                        image={product.image}
+                        brand={product.brand}
+                    />
+                )}
+            </ItemsContainer>
         </>
     )
 }
@@ -74,13 +93,18 @@ const CategoriesNav = styled.div`
         margin: 10px 0 10px 10px;
         padding: 5px 0 5px 10px;
         border-left: 2px solid #e0e2e9;
+        cursor: pointer;
 
         :hover {
-            color: #048BF3
+            color: #048BF3;
         }
     }
 
     div:last-child {
         border-left: none;
     }
+`;
+
+const ItemsContainer = styled.div`
+    display: flex;
 `;
