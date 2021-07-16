@@ -32,7 +32,7 @@ router.get('/all', verifyTokenOrError, (req, res) => {
 })
 
 //get all products by category
-router.get('/', verifyTokenOrError, (req, res) => {
+router.post('/', verifyTokenOrError, (req, res) => {
 
     jwt.verify(req.token, 'supersecretkey', async (err) => {
         if (err) {
@@ -61,7 +61,7 @@ router.get('/search', verifyTokenOrError, (req, res) => {
 })
 
 //admin: add new products
-router.post('/', async (req, res) => {
+router.post('/new-item', async (req, res) => {
     const { productName, categoryId, price, image, brand } = req.body;
     try {
         await sequelize.sync();
