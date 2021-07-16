@@ -1,4 +1,4 @@
-const verifyToken = (req, res, next) => {
+const verifyTokenOrError = (req, res, next) => {
     // Get auth header value
     const bearerHeader = req.headers['authorization'];
     // Check if bearer is undefined
@@ -17,4 +17,4 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-module.exports = verifyToken;
+module.exports = verifyTokenOrError;

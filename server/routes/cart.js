@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { Op, sequelize, Product, ShoppingCart, CartItem, Order } = require('../models');
 const jwt = require('jsonwebtoken');
-const verifyToken = require('../utils/middlewares/jwtoken');
+const verifyTokenOrError = require('../utils/middlewares/JWT/verifyTokenOrError');
 
 
 //check if there is an active cart and show items
-router.get('/', verifyToken, (req, res) => {
+router.get('/', verifyTokenOrError, (req, res) => {
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, "-");
 
@@ -49,7 +49,7 @@ router.get('/', verifyToken, (req, res) => {
 })
 
 //add product to cart
-router.post('/', verifyToken, (req, res) => {
+router.post('/', verifyTokenOrError, (req, res) => {
     const { productId, quantity } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
@@ -81,7 +81,7 @@ router.post('/', verifyToken, (req, res) => {
 })
 
 //remove product from cart
-router.delete('/item', verifyToken, (req, res) => {
+router.delete('/item', verifyTokenOrError, (req, res) => {
     const { productId } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
@@ -113,7 +113,7 @@ router.delete('/item', verifyToken, (req, res) => {
 })
 
 //update quantity of an item in cart
-router.patch('/', verifyToken, (req, res) => {
+router.patch('/', verifyTokenOrError, (req, res) => {
     const { productId, newQuantity } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
@@ -152,7 +152,7 @@ router.patch('/', verifyToken, (req, res) => {
 })
 
 //empty cart
-router.delete('/', verifyToken, (req, res) => {
+router.delete('/', verifyTokenOrError, (req, res) => {
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
         if (err) {
             res.sendStatus(403);
