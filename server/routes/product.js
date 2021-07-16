@@ -1,14 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const { Op, sequelize, Product } = require('../models');
+const jwt = require('jsonwebtoken');
+const verifyTokenOrError = require('../utils/middlewares/JWT/verifyTokenOrError');
 
 
 //get all products by category
-router.get('/', async (req, res) => {
-    const { categoryId } = req.body;
+router.get('/', verifyTokenOrError, (req, res) => {
 
-    const products = await Product.findAll({ where: { category_id: categoryId } });
-    res.send(products)
+    jwt.verify(req.token, 'supersecretkey', async (err) => {
+        if (err) {
+            res.sendStatus(404);
+        } else {
+            const { categoryId } = req.body;
+
+            const products = await Product.findAll({ where: { category_id: categoryId } });
+            res.send(products)
+        }
+    });
 })
 
 //search for product
