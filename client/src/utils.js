@@ -58,3 +58,27 @@ export const getLogin = (idNumber, password) => {
 
     return fetch(`${serverUrl}/login`, requestOptions)
 }
+
+export const getCategoriesFromServer = (currentUser) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
+    };
+
+    return fetch(`${serverUrl}/product/categories`, requestOptions)
+}
+
+export const getAllProducts = (currentUser) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
+    };
+
+    return fetch(`${serverUrl}/product/all`, requestOptions)
+}
