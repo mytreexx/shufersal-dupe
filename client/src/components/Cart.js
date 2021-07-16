@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
 import { getCartItems } from '../utils';
+import CartItem from './CartItem';
 
 const Cart = ({ currentUser }) => {
     const [cartItems, setCartItems] = useState();
@@ -14,7 +16,17 @@ const Cart = ({ currentUser }) => {
     }, []);
     return (
         <Container>
-            { cartItems && cartItems.map(item => <div>{item.product.product_name}</div>)}
+            {cartItems && cartItems.map(item =>
+                <CartItem
+                    key={item.id}
+                    id={item.id}
+                    productName={item.product.product_name}
+                    image={item.product.image}
+                    brand={item.product.brand}
+                    totalPrice={item.total_price}
+                    quantity={item.quantity}
+                />
+            )}
         </Container>
     )
 }
