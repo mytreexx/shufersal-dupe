@@ -47,12 +47,13 @@ router.post('/', verifyTokenOrError, (req, res) => {
 })
 
 //search for product
-router.get('/search', verifyTokenOrError, (req, res) => {
+router.post('/search', verifyTokenOrError, (req, res) => {
     const { searchTerm } = req.body;
+    console.log(searchTerm)
 
     jwt.verify(req.token, 'supersecretkey', async (err) => {
         if (err) {
-            res.sendStatus(404);
+            res.sendStatus(403);
         } else {
             const products = await Product.findAll({ where: { product_name: { [Op.like]: `%${searchTerm}%` } } })
             res.send(products)
