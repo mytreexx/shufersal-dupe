@@ -15,16 +15,8 @@ const LandingPage = ({ currentUser }) => {
     const [hasActiveCart, setHasActiveCart] = useState();
     const [customerName, setCustomerName] = useState();
 
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': `Basic ${currentUser}`
-        }
-    };
-
     useEffect(() => {
-        getStoreDetails(requestOptions)
+        getStoreDetails(currentUser)
             .then(response => response.json())
             .then((result) => {
                 console.log(result)

@@ -22,21 +22,12 @@ const Login = ({ onUserChange }) => {
         e.preventDefault();
         console.log(idNumber, password)
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                idNumber,
-                password
-            }),
-        };
-
-        getLogin(requestOptions)
+        getLogin(idNumber, password)
             .then((response) => {
                 if (response.ok) {
                     response.json()
                         .then(response => onUserChange(response.token))
-                    history.push('/');
+                    history.push('/store');
                 } else {
                     response.json()
                         .then((response) => toast.error(response.error));

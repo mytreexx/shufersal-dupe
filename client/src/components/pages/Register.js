@@ -35,18 +35,7 @@ const Register = () => {
         e.preventDefault();
         console.log(idNumber, email, password, confirmPassword)
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                idNumber,
-                email,
-                password,
-                confirmPassword
-            }),
-        };
-
-        checkForRegistration(requestOptions)
+        checkForRegistration(idNumber, email, password, confirmPassword)
             .then((response) => {
                 if (response.ok) {
                     setActiveForm(1);
@@ -60,23 +49,7 @@ const Register = () => {
     const submitForm = (e) => {
         e.preventDefault();
         console.log(idNumber, email, password, confirmPassword, firstName, lastName, street, city)
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                idNumber,
-                email,
-                password,
-                confirmPassword,
-                firstName,
-                lastName,
-                street,
-                city
-            }),
-        };
-
-        completeRegistration(requestOptions)
+        completeRegistration(idNumber, email, password, confirmPassword, firstName, lastName, street, city)
             .then((response) => {
                 if (response.ok) {
                     setActiveForm(2);
