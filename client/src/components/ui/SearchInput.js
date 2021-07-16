@@ -24,7 +24,8 @@ const SearchInput = ({ currentUser, setProducts }) => {
                 placeholder="מה תרצה לחפש?"
             />
             <BsSearch onClick={searchForProducts} />
-        </Container>)
+        </Container>
+    )
 }
 
 export default SearchInput;

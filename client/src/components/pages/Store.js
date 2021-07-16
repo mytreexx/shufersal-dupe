@@ -5,7 +5,7 @@ import SecondaryNavbar from '../ui/SecondaryNavbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
 import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
-import SearchInput from '../ui/Search';
+import SearchInput from '../ui/SearchInput';
 import { getCategoriesFromServer, getAllProducts, onGetCategoryItems } from '../../utils';
 
 
