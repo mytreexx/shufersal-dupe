@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import SecondaryNavbar from '../ui/SecondaryNavbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
-import { getCategoriesFromServer, getAllProducts } from '../../utils';
+import { getCategoriesFromServer, getAllProducts, onGetCategoryItems } from '../../utils';
 
 
 const Store = ({ currentUser }) => {
@@ -18,7 +18,6 @@ const Store = ({ currentUser }) => {
             })
     }, []);
 
-
     useEffect(() => {
         getAllProducts(currentUser)
             .then(response => response.json())
@@ -26,6 +25,14 @@ const Store = ({ currentUser }) => {
                 setProducts(data)
             })
     }, []);
+
+    const getCategoryItems = (catagoryId) => {
+        onGetCategoryItems(currentUser, catagoryId)
+            .then(response => response.json())
+            .then(data => {
+                setProducts(data)
+            })
+    }
 
     return (
         <>
@@ -35,7 +42,11 @@ const Store = ({ currentUser }) => {
             </NavContainer>
 
             <CategoriesNav>
-                {categories && categories.map(category => <div>{category.category}</div>)}
+                {categories && categories.map(category =>
+                    <div onClick={() => { getCategoryItems(category.id) }}>
+                        {category.category}
+                    </div>
+                )}
             </CategoriesNav>
 
             {products && products.map(product => <div>{product.product_name}</div>)}

@@ -82,3 +82,18 @@ export const getAllProducts = (currentUser) => {
 
     return fetch(`${serverUrl}/product/all`, requestOptions)
 }
+
+export const onGetCategoryItems = (currentUser, categoryId) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        },
+        body: JSON.stringify({
+            categoryId
+        }),
+    };
+
+    return fetch(`${serverUrl}/product/`, requestOptions)
+}
