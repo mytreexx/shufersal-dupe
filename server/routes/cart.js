@@ -81,29 +81,36 @@ router.post('/', verifyToken, async (req, res) => {
 })
 
 //remove product from cart
-router.delete('/item', async (req, res) => {
-    const { customerId, productId } = req.body;
+router.delete('/item', verifyToken, (req, res) => {
+    const { productId } = req.body;
 
-    const currentCart = await ShoppingCart.findOne({
-        where: { customer_id: customerId },
-        order: [['id', 'DESC']],
-    });
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        console.log(authData)
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            const currentCart = await ShoppingCart.findOne({
+                where: { customer_id: authData.loggingInUser.id },
+                order: [['id', 'DESC']],
+            });
 
-    try {
-        await sequelize.sync();
-        CartItem.destroy({
-            where: {
-                [Op.and]: [
-                    { product_id: productId },
-                    { cart_id: currentCart.id }
-                ]
+            try {
+                await sequelize.sync();
+                CartItem.destroy({
+                    where: {
+                        [Op.and]: [
+                            { product_id: productId },
+                            { cart_id: currentCart.id }
+                        ]
+                    }
+                });
+                res.send({ message: `removed item ${productId} from cart ${currentCart.id}` });
+            } catch (e) {
+                console.error(e)
+                res.send(e)
             }
-        });
-        res.send({ message: `removed item ${productId} from cart ${currentCart.id}` });
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
+        }
+    });
 })
 
 //update quantity of an item in cart
