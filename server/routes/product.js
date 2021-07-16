@@ -21,11 +21,17 @@ router.get('/', verifyTokenOrError, (req, res) => {
 })
 
 //search for product
-router.get('/search', async (req, res) => {
+router.get('/search', verifyTokenOrError, (req, res) => {
     const { searchTerm } = req.body;
-    const products = await Product.findAll({ where: { product_name: { [Op.like]: `%${searchTerm}%` } } })
 
-    res.send(products)
+    jwt.verify(req.token, 'supersecretkey', async (err) => {
+        if (err) {
+            res.sendStatus(404);
+        } else {
+            const products = await Product.findAll({ where: { product_name: { [Op.like]: `%${searchTerm}%` } } })
+            res.send(products)
+        }
+    });
 })
 
 //admin: add new products
