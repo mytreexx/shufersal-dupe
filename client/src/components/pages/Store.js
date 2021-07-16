@@ -6,6 +6,7 @@ import Logo from '../../assets/Shufersal-logo-large.png';
 import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
 import SearchInput from '../ui/SearchInput';
+import Cart from '../Cart';
 import { getCategoriesFromServer, getAllProducts, onGetCategoryItems } from '../../utils';
 
 
@@ -39,43 +40,45 @@ const Store = ({ currentUser }) => {
     }
 
     return (
-        <>
-            <NavContainer>
-                <img src={Logo} />
-                <SecondaryNavbar />
-            </NavContainer>
+        <Container>
+            <div>
+                <NavContainer>
+                    <img src={Logo} />
+                    <SecondaryNavbar />
+                </NavContainer>
+                <CategoriesNav>
+                    {categories && categories.map(category =>
+                        <div
+                            key={category.id}
+                            onClick={() => {
+                                getCategoryItems(category.id)
+                            }}
+                        >
+                            {category.category}
+                        </div>
+                    )}
+                </CategoriesNav>
 
-            <CategoriesNav>
-                {categories && categories.map(category =>
-                    <div
-                        key={category.id}
-                        onClick={() => {
-                            getCategoryItems(category.id)
-                        }}
-                    >
-                        {category.category}
-                    </div>
-                )}
-            </CategoriesNav>
+                <SearchInput setProducts={setProducts} currentUser={currentUser} />
 
-            <SearchInput setProducts={setProducts} currentUser={currentUser} />
+                <Carousel />
 
-            <Carousel />
-
-            <ItemsContainer>
-                {products && products.map(product =>
-                    <ProductItem
-                        key={product.id}
-                        id={product.id}
-                        name={product.product_name}
-                        catagoryId={product.category_id}
-                        price={product.price}
-                        image={product.image}
-                        brand={product.brand}
-                    />
-                )}
-            </ItemsContainer>
-        </>
+                <ItemsContainer>
+                    {products && products.map(product =>
+                        <ProductItem
+                            key={product.id}
+                            id={product.id}
+                            name={product.product_name}
+                            catagoryId={product.category_id}
+                            price={product.price}
+                            image={product.image}
+                            brand={product.brand}
+                        />
+                    )}
+                </ItemsContainer>
+            </div>
+            <Cart currentUser={currentUser} />
+        </Container>
     )
 }
 
@@ -113,4 +116,8 @@ const CategoriesNav = styled.div`
 
 const ItemsContainer = styled.div`
     display: flex;
+`;
+
+const Container = styled.div`
+display: flex;
 `;

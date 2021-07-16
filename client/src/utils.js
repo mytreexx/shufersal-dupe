@@ -112,3 +112,15 @@ export const getSearchedProducts = (currentUser, searchTerm) => {
 
     return fetch(`${serverUrl}/product/search`, requestOptions)
 }
+
+export const getCartItems = (currentUser) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
+    };
+
+    return fetch(`${serverUrl}/cart`, requestOptions)
+}
