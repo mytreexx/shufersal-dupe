@@ -53,7 +53,7 @@ const Store = ({ currentUser }) => {
                 )}
             </CategoriesNav>
 
-            <SearchInput setProducts={setProducts} />
+            <SearchInput setProducts={setProducts} currentUser={currentUser} />
 
             <Carousel />
 

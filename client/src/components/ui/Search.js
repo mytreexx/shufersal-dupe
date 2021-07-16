@@ -2,11 +2,18 @@ import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { useState } from "react";
 
-const SearchInput = () => {
+import { getSearchedProducts } from '../../utils';
+
+const SearchInput = ({ currentUser, setProducts }) => {
     const [searchTerm, setSearchTerm] = useState();
 
     const searchForProducts = () => {
-        console.log(searchTerm)
+        console.log(currentUser)
+        getSearchedProducts(currentUser, searchTerm)
+            .then(response => response.json())
+            .then(data => {
+                setProducts(data)
+            })
     }
 
     return (
