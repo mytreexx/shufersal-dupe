@@ -1,7 +1,14 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import Button from './ui/Button';
 
-const ProductItem = ({ categoryId, id, image, name, brand, price }) => {
+const ProductItem = ({ categoryId, id, image, name, brand, price, addItem }) => {
+    const [quantity, setQuantity] = useState(1);
+
+    const decreaseQuantity = () => {
+        setQuantity(quantity => quantity > 1 ? quantity - 1 : quantity)
+    }
+
     return (
         <Container>
             <img src={image} />
@@ -9,11 +16,28 @@ const ProductItem = ({ categoryId, id, image, name, brand, price }) => {
             <div>{name}</div>
             <div>{brand}</div>
             <Controllers>
-                <div className="unit-button">+</div>
-                <input type='number' />
+                <div
+                     className="unit-button"
+                    onClick={() => { setQuantity(quantity + 1) }}
+                >
+                    +
+                </div>
+
+                <input
+                    type='number'
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => { setQuantity(e.target.value) }}
+                />
                 <div>יח'</div>
-                <div className="unit-button">-</div>
-                <Button mini>הוסף</Button>
+
+                <div
+                    className="unit-button"
+                    onClick={decreaseQuantity}
+                >
+                    -
+                </div>
+                <Button mini onClick={() => { addItem(id, quantity) }}>הוסף</Button>
             </Controllers>
         </Container>
     )

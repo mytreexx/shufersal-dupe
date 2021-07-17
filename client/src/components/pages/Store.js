@@ -7,7 +7,7 @@ import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
 import SearchInput from '../ui/SearchInput';
 import Cart from '../Cart';
-import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems } from '../../utils';
+import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addItemToCart } from '../../utils';
 
 const Store = ({ currentUser }) => {
     const [categories, setCategories] = useState([]);
@@ -48,6 +48,15 @@ const Store = ({ currentUser }) => {
             })
     }
 
+    const addItem = (id, quantity) => {
+        console.log(id, quantity)
+        addItemToCart(currentUser, id, quantity)
+            .then(response => response.json())
+            .then(data => {
+                setCartItems(data)
+            })
+    }
+
     return (
         <Container>
             <div>
@@ -82,6 +91,7 @@ const Store = ({ currentUser }) => {
                             price={product.price}
                             image={product.image}
                             brand={product.brand}
+                            addItem={addItem}
                         />
                     )}
                 </ItemsContainer>

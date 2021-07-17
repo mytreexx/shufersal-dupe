@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-import { getCartItems } from '../utils';
 import CartItem from './CartItem';
 
-const Cart = ({ currentUser, cartItems }) => {
+const Cart = ({ cartItems }) => {
 
     return (
         <Container>
