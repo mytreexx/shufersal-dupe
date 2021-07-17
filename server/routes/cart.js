@@ -4,46 +4,50 @@ const { Op, sequelize, Product, ShoppingCart, CartItem, Order } = require('../mo
 const jwt = require('jsonwebtoken');
 const verifyTokenOrError = require('../utils/middlewares/JWT/verifyTokenOrError');
 
-
-//check if there is an active cart and show items
-router.get('/', verifyTokenOrError, (req, res) => {
+const getCart = async (customerId) => {
     const date = new Date();
     const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, "-");
 
+    const createNewCart = async () => {
+        try {
+            await sequelize.sync();
+            await ShoppingCart.create({
+                customer_id: customerId,
+                created_at: formattedDate
+            });
+            return ({ message: 'created new cart!' });
+        } catch (e) {
+            console.error(e)
+            res.send(e)
+        }
+    }
+
+    const cart = await ShoppingCart.findOne({
+        where: { customer_id: customerId },
+        order: [['id', 'DESC']],
+    });
+
+    if (cart) {
+        const order = await Order.findOne({ where: { cart_id: cart.id } })
+        if (order) {
+            createNewCart();
+        } else {
+            const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
+            return (cartItems)
+        }
+    } else {
+        createNewCart();
+    }
+}
+
+//check if there is an active cart and show items
+router.get('/', verifyTokenOrError, (req, res) => {
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
         if (err) {
             res.sendStatus(403);
         } else {
-            const createNewCart = async () => {
-                try {
-                    await sequelize.sync();
-                    await ShoppingCart.create({
-                        customer_id: authData.loggingInUser.id,
-                        created_at: formattedDate
-                    });
-                    res.send({ message: 'created new cart!' });
-                } catch (e) {
-                    console.error(e)
-                    res.send(e)
-                }
-            }
-
-            const cart = await ShoppingCart.findOne({
-                where: { customer_id: authData.loggingInUser.id },
-                order: [['id', 'DESC']],
-            });
-
-            if (cart) {
-                const order = await Order.findOne({ where: { cart_id: cart.id } })
-                if (order) {
-                    createNewCart();
-                } else {
-                    const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
-                    res.send(cartItems)
-                }
-            } else {
-                createNewCart();
-            }
+            const cart = await getCart(authData.loggingInUser.id);
+            res.send(cart);
         }
     });
 })
