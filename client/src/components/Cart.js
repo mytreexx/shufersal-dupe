@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import CartItem from './CartItem';
 
 const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem }) => {
@@ -35,6 +37,7 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem }) => 
                 />
             )}
             <div>₪{totalCartPrice.toFixed(2)}</div>
+            <Link to="/order">complete order</Link>
         </Container>
     )
 }

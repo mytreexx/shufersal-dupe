@@ -167,3 +167,35 @@ export const onEmptyCart = (currentUser) => {
 
     return fetch(`${serverUrl}/cart`, requestOptions)
 }
+
+export const getOrderDetails = (currentUser) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
+    };
+
+    return fetch(`${serverUrl}/order`, requestOptions)
+}
+
+export const onMakeOrder = (currentUser, city, street, shippingDate, creditCard) => {
+    console.log(city, street, shippingDate, creditCard, currentUser)
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        },
+        body: JSON.stringify({
+            city,
+            street,
+            shippingDate,
+            creditCard
+        }),
+    };
+
+    return fetch(`${serverUrl}/order`, requestOptions)
+}

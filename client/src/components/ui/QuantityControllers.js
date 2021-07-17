@@ -43,10 +43,15 @@ const Container = styled.div`
     display: flex;
     align-content: center;
     align-items: center;
+    opacity:0;
+
+    :hover {
+        opacity: 1;
+    }
 
     > * {
         margin-right: 5px;
-        }
+    }
 
     input {
         width: 50px;

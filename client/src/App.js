@@ -6,6 +6,7 @@ import LandingPage from './components/pages/LandingPage';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import Store from './components/pages/Store';
+import OrderPage from './components/pages/OrderPage';
 
 
 function App() {
@@ -40,6 +41,10 @@ function App() {
 
       <Route path="/store">
         <Store currentUser={currentUser} />
+      </Route>
+
+      <Route path="/order">
+        <OrderPage currentUser={currentUser} />
       </Route>
     </Switch>
   );
