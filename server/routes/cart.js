@@ -75,7 +75,8 @@ router.post('/', verifyTokenOrError, (req, res) => {
                     quantity,
                     total_price: product.price * quantity
                 });
-                res.send({ totalPrice: product.price * quantity });
+                const cart = await getCart(authData.loggingInUser.id);
+                res.send(cart);
             } catch (e) {
                 console.error(e)
                 res.send(e)
