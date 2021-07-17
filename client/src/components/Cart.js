@@ -3,6 +3,20 @@ import styled from 'styled-components';
 import CartItem from './CartItem';
 
 const Cart = ({ cartItems, removeItemFromCart, emptyCart }) => {
+    const [totalCartPrice, setTotalCartPrice] = useState(0)
+
+    useEffect(() => {
+        let totalPrice = 0;
+
+        cartItems && cartItems.forEach(item => {
+            totalPrice = totalPrice + item.total_price
+        });
+        if (cartItems) {
+            setTotalCartPrice(totalPrice)
+        } else {
+            setTotalCartPrice(0)
+        }
+    }, cartItems);
 
     return (
         <Container>
@@ -19,6 +33,7 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart }) => {
                     removeItemFromCart={removeItemFromCart}
                 />
             )}
+            <div>₪{totalCartPrice}</div>
         </Container>
     )
 }

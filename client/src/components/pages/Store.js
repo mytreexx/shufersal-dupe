@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import SecondaryNavbar from '../ui/SecondaryNavbar';
@@ -36,7 +36,6 @@ const Store = ({ currentUser }) => {
             .then(data => {
                 setCartItems(data)
             })
-        // console.log(cartItems)
     }, []);
 
     const getCategoryItems = (catagoryId) => {
@@ -48,7 +47,6 @@ const Store = ({ currentUser }) => {
     }
 
     const addItem = (id, quantity) => {
-        // console.log(id, quantity)
         addItemToCart(currentUser, id, quantity)
             .then(response => response.json())
             .then(data => {
@@ -57,7 +55,6 @@ const Store = ({ currentUser }) => {
     }
 
     const removeItemFromCart = (id) => {
-        // console.log(id)
         onRemoveItemFromCart(currentUser, id)
             .then(response => response.json())
             .then(data => {
