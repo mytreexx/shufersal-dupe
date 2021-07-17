@@ -33,7 +33,7 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart }) => {
                     removeItemFromCart={removeItemFromCart}
                 />
             )}
-            <div>₪{totalCartPrice}</div>
+            <div>₪{totalCartPrice.toFixed(2)}</div>
         </Container>
     )
 }
