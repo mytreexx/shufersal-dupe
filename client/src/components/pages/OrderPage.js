@@ -43,7 +43,6 @@ const OrderPage = ({ currentUser }) => {
         console.log(currentUser)
 
         onMakeOrder(currentUser, city, street, shippingDate, creditCard)
-            // .then((response) => toast.success(response));
             .then((response) => {
                 if (response.ok) {
                     response.json()
