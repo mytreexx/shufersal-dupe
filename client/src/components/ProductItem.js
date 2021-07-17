@@ -2,8 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Button from './ui/Button';
 
-const ProductItem = ({ categoryId, id, image, name, brand, price, addItem }) => {
-    const [quantity, setQuantity] = useState(1);
+const ProductItem = ({ categoryId, id, image, name, brand, price, addItem , itemQuantity}) => {
+    const [quantity, setQuantity] = useState(itemQuantity);
 
     const decreaseQuantity = () => {
         setQuantity(quantity => quantity > 1 ? quantity - 1 : quantity)
@@ -15,6 +15,7 @@ const ProductItem = ({ categoryId, id, image, name, brand, price, addItem }) => 
             <div>₪{price}</div>
             <div>{name}</div>
             <div>{brand}</div>
+
             <Controllers>
                 <div
                      className="unit-button"
