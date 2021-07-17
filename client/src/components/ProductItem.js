@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from './ui/Button';
 import QuantityControllers from './ui/QuantityControllers';
 
-const ProductItem = ({ categoryId, id, image, name, brand, price, addItem, itemQuantity }) => {
+const ProductItem = ({ categoryId, id, image, name, brand, price, addOrUpdateItem, itemQuantity }) => {
 
     return (
         <Container>
@@ -11,7 +11,7 @@ const ProductItem = ({ categoryId, id, image, name, brand, price, addItem, itemQ
             <div>₪{price}</div>
             <div>{name}</div>
             <div>{brand}</div>
-            <QuantityControllers id={id} itemQuantity={itemQuantity} addItem={addItem} />
+            <QuantityControllers id={id} itemQuantity={itemQuantity} addOrUpdateItem={addOrUpdateItem} />
         </Container>
     )
 }

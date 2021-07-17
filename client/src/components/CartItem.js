@@ -1,14 +1,22 @@
 import styled from 'styled-components';
+import QuantityControllers from '../components/ui/QuantityControllers';
 
-const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeItemFromCart }) => {
+
+const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeItemFromCart, addOrUpdateItem }) => {
     return (
         <Container>
             <img src={image} />
+
             <div>
                 <div>{productName}</div>
                 <div>{quantity} יח'</div>
             </div>
-            <div>₪{totalPrice}</div>
+
+            <div>
+                <div>₪{totalPrice}</div>
+                <QuantityControllers addOrUpdateItem={addOrUpdateItem} id={id} itemQuantity={quantity} />
+            </div>
+
             <div onClick={() => { removeItemFromCart(id) }}>X</div>
 
         </Container>

@@ -46,7 +46,7 @@ const Store = ({ currentUser }) => {
             })
     }
 
-    const addItem = (id, quantity) => {
+    const addOrUpdateItem = (id, quantity) => {
         addOrUpdateItemToCart(currentUser, id, quantity)
             .then(response => response.json())
             .then(data => {
@@ -114,7 +114,7 @@ const Store = ({ currentUser }) => {
                             price={product.price}
                             image={product.image}
                             brand={product.brand}
-                            addItem={addItem}
+                            addOrUpdateItem={addOrUpdateItem}
                         />
                     )}
                 </ItemsContainer>
@@ -124,6 +124,7 @@ const Store = ({ currentUser }) => {
                 cartItems={cartItems}
                 removeItemFromCart={removeItemFromCart}
                 emptyCart={emptyCart}
+                addOrUpdateItem={addOrUpdateItem}
             />
         </Container>
     )

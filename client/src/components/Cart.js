@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CartItem from './CartItem';
 
-const Cart = ({ cartItems, removeItemFromCart, emptyCart }) => {
+const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem }) => {
     const [totalCartPrice, setTotalCartPrice] = useState(0)
 
     useEffect(() => {
@@ -31,6 +31,7 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart }) => {
                     totalPrice={item.total_price}
                     quantity={item.quantity}
                     removeItemFromCart={removeItemFromCart}
+                    addOrUpdateItem={addOrUpdateItem}
                 />
             )}
             <div>₪{totalCartPrice.toFixed(2)}</div>

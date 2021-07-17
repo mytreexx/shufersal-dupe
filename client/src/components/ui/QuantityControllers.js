@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../ui/Button';
 
-const QuantityControllers = ({ addItem, id, itemQuantity }) => {
+const QuantityControllers = ({ addOrUpdateItem, id, itemQuantity }) => {
 
     const [quantity, setQuantity] = useState(itemQuantity);
 
@@ -32,7 +32,7 @@ const QuantityControllers = ({ addItem, id, itemQuantity }) => {
             >
                 -
             </div>
-            <Button mini onClick={() => { addItem(id, quantity) }}>הוסף</Button>
+            <Button mini onClick={() => { addOrUpdateItem(id, quantity) }}>הוסף</Button>
         </Container>
     )
 }
