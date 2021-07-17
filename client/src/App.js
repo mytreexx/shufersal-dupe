@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
 import './App.css';
 import LandingPage from './components/pages/LandingPage';
@@ -11,6 +11,7 @@ import Receipt from './components/pages/Receipt';
 
 
 function App() {
+  const history = useHistory();
   const [currentUser, setCurrentUser] = useState(
     localStorage.getItem('currentUser')
   );
@@ -23,10 +24,15 @@ function App() {
     }
   }, [currentUser]);
 
+  const logout = () => {
+    setCurrentUser(undefined);
+    history.push('/');
+  };
+
   return (
     <Switch>
       <Route exact path="/">
-        <LandingPage currentUser={currentUser} />
+        <LandingPage currentUser={currentUser} logout={logout} />
       </Route>
 
       <Route path="/register">
@@ -41,7 +47,7 @@ function App() {
       </Route>
 
       <Route path="/store">
-        <Store currentUser={currentUser} />
+        <Store currentUser={currentUser} logout={logout} />
       </Route>
 
       <Route path="/order">
