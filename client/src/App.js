@@ -7,6 +7,7 @@ import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import Store from './components/pages/Store';
 import OrderPage from './components/pages/OrderPage';
+import Receipt from './components/pages/Receipt';
 
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
 
       <Route path="/order">
         <OrderPage currentUser={currentUser} />
+      </Route>
+
+      <Route path="/receipt">
+        <Receipt currentUser={currentUser} />
       </Route>
     </Switch>
   );
