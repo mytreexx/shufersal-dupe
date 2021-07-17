@@ -171,7 +171,8 @@ router.delete('/', verifyTokenOrError, (req, res) => {
             try {
                 await sequelize.sync();
                 CartItem.destroy({ where: { cart_id: currentCart.id } });
-                res.send({ message: `cart ${currentCart.id} is now empty` });
+                const cart = await getCart(authData.loggingInUser.id);
+                res.send(cart);
             } catch (e) {
                 console.error(e)
                 res.send(e)

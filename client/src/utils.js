@@ -155,3 +155,15 @@ export const onRemoveItemFromCart = (currentUser, productId) => {
 
     return fetch(`${serverUrl}/cart/item`, requestOptions)
 }
+
+export const onEmptyCart = (currentUser) => {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        }
+    };
+
+    return fetch(`${serverUrl}/cart`, requestOptions)
+}

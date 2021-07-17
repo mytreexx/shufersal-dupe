@@ -7,7 +7,7 @@ import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
 import SearchInput from '../ui/SearchInput';
 import Cart from '../Cart';
-import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addItemToCart, onRemoveItemFromCart } from '../../utils';
+import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
 
 const Store = ({ currentUser }) => {
     const [categories, setCategories] = useState([]);
@@ -64,6 +64,14 @@ const Store = ({ currentUser }) => {
             })
     }
 
+    const emptyCart = () => {
+        onEmptyCart(currentUser)
+            .then(response => response.json())
+            .then(data => {
+                setCartItems(data)
+            })
+    }
+
     return (
         <Container>
             <div>
@@ -103,7 +111,12 @@ const Store = ({ currentUser }) => {
                     )}
                 </ItemsContainer>
             </div>
-            <Cart currentUser={currentUser} cartItems={cartItems} removeItemFromCart={removeItemFromCart} />
+            <Cart
+                currentUser={currentUser}
+                cartItems={cartItems}
+                removeItemFromCart={removeItemFromCart}
+                emptyCart={emptyCart}
+            />
         </Container>
     )
 }

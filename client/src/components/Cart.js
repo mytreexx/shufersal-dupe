@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CartItem from './CartItem';
 
-const Cart = ({ cartItems, removeItemFromCart }) => {
+const Cart = ({ cartItems, removeItemFromCart, emptyCart }) => {
 
     return (
         <Container>
+            <div onClick={emptyCart}>X empty cart</div>
             {cartItems && cartItems.map(item =>
                 <CartItem
                     key={item.id}
