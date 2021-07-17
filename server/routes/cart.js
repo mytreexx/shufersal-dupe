@@ -52,34 +52,60 @@ router.get('/', verifyTokenOrError, (req, res) => {
     });
 })
 
-//add product to cart
-router.post('/', verifyTokenOrError, (req, res) => {
+//add or update items to cart
+router.put('/', verifyTokenOrError, (req, res) => {
     const { productId, quantity } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
         if (err) {
             res.sendStatus(403);
         } else {
+            const product = await Product.findOne({ where: { id: productId } })
+
             const currentCart = await ShoppingCart.findOne({
                 where: { customer_id: authData.loggingInUser.id },
                 order: [['id', 'DESC']],
             });
 
-            const product = await Product.findOne({ where: { id: productId } })
+            const itemToUpdate = await CartItem.findOne({
+                where: {
+                    [Op.and]: [
+                        { product_id: productId },
+                        { cart_id: currentCart.id }
+                    ]
+                }
+            });
 
-            try {
-                await sequelize.sync();
-                await CartItem.create({
-                    product_id: productId,
-                    cart_id: currentCart.id,
-                    quantity,
-                    total_price: product.price * quantity
-                });
-                const cart = await getCart(authData.loggingInUser.id);
-                res.send(cart);
-            } catch (e) {
-                console.error(e)
-                res.send(e)
+            if (itemToUpdate) {
+                //update item logic
+                itemToUpdate.quantity = quantity;
+                itemToUpdate.total_price = (quantity * product.price);
+
+                try {
+                    await sequelize.sync();
+                    itemToUpdate.save();
+                    const cart = await getCart(authData.loggingInUser.id);
+                    res.send(cart);
+                } catch (e) {
+                    console.error(e)
+                    res.send(e)
+                }
+            } else {
+                //add item logic
+                try {
+                    await sequelize.sync();
+                    await CartItem.create({
+                        product_id: productId,
+                        cart_id: currentCart.id,
+                        quantity,
+                        total_price: product.price * quantity
+                    });
+                    const cart = await getCart(authData.loggingInUser.id);
+                    res.send(cart);
+                } catch (e) {
+                    console.error(e)
+                    res.send(e)
+                }
             }
         }
     });
@@ -110,45 +136,6 @@ router.delete('/item', verifyTokenOrError, (req, res) => {
                 });
                 const cart = await getCart(authData.loggingInUser.id);
                 res.send(cart);
-            } catch (e) {
-                console.error(e)
-                res.send(e)
-            }
-        }
-    });
-})
-
-//update quantity of an item in cart
-router.patch('/', verifyTokenOrError, (req, res) => {
-    const { productId, newQuantity } = req.body;
-
-    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
-        if (err) {
-            res.sendStatus(403);
-        } else {
-            const product = await Product.findOne({ where: { id: productId } })
-
-            const currentCart = await ShoppingCart.findOne({
-                where: { customer_id: authData.loggingInUser.id },
-                order: [['id', 'DESC']],
-            });
-
-            const itemToUpdate = await CartItem.findOne({
-                where: {
-                    [Op.and]: [
-                        { product_id: productId },
-                        { cart_id: currentCart.id }
-                    ]
-                }
-            });
-
-            itemToUpdate.quantity = newQuantity;
-            itemToUpdate.total_price = (newQuantity * product.price);
-
-            try {
-                await sequelize.sync();
-                itemToUpdate.save();
-                res.send(itemToUpdate);
             } catch (e) {
                 console.error(e)
                 res.send(e)

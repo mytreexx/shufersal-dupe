@@ -7,7 +7,7 @@ import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
 import SearchInput from '../ui/SearchInput';
 import Cart from '../Cart';
-import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
+import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addOrUpdateItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
 
 const Store = ({ currentUser }) => {
     const [categories, setCategories] = useState([]);
@@ -47,7 +47,7 @@ const Store = ({ currentUser }) => {
     }
 
     const addItem = (id, quantity) => {
-        addItemToCart(currentUser, id, quantity)
+        addOrUpdateItemToCart(currentUser, id, quantity)
             .then(response => response.json())
             .then(data => {
                 setCartItems(data)

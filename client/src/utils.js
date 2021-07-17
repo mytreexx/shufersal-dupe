@@ -125,9 +125,9 @@ export const getCartItems = (currentUser) => {
     return fetch(`${serverUrl}/cart`, requestOptions)
 }
 
-export const addItemToCart = (currentUser, productId, quantity) => {
+export const addOrUpdateItemToCart = (currentUser, productId, quantity) => {
     const requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'authorization': `Basic ${currentUser}`
