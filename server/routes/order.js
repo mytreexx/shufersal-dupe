@@ -11,6 +11,21 @@ router.get('/', verifyTokenOrError, (req, res) => {
         if (err) {
             res.sendStatus(403);
         } else {
+            const availableDates = [];
+
+            for (let i = 1; i < 8; i++) {
+                const date = new Date();
+                let weekDate = new Date();
+                weekDate.setDate(date.getDate() + i)
+                const formattedDate = weekDate.toISOString().slice(0, 10).replace(/-/g, "-");
+
+                const numberOfOrdersToDate = await Order.findAndCountAll({ where: { shipping_date: formattedDate } });
+
+                if (numberOfOrdersToDate.count <= 3) {
+                    availableDates.push(formattedDate)
+                }
+            }
+
             const customer = await Customer.findOne({ where: { id: authData.loggingInUser.id } });
             const currentCart = await ShoppingCart.findOne({
                 where: { customer_id: authData.loggingInUser.id },
@@ -18,7 +33,7 @@ router.get('/', verifyTokenOrError, (req, res) => {
             });
 
             const cartItems = await CartItem.findAll({ where: { cart_id: currentCart.id }, include: { model: Product } })
-            res.send({ cartItems, customer })
+            res.send({ cartItems, customer, availableDates })
         }
     });
 })
