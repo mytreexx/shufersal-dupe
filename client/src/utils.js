@@ -140,3 +140,18 @@ export const addItemToCart = (currentUser, productId, quantity) => {
 
     return fetch(`${serverUrl}/cart`, requestOptions)
 }
+
+export const onRemoveItemFromCart = (currentUser, productId) => {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        },
+        body: JSON.stringify({
+            productId,
+        }),
+    };
+
+    return fetch(`${serverUrl}/cart/item`, requestOptions)
+}

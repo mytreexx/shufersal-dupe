@@ -108,7 +108,8 @@ router.delete('/item', verifyTokenOrError, (req, res) => {
                         ]
                     }
                 });
-                res.send({ message: `removed item ${productId} from cart ${currentCart.id}` });
+                const cart = await getCart(authData.loggingInUser.id);
+                res.send(cart);
             } catch (e) {
                 console.error(e)
                 res.send(e)

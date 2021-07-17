@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const CartItem = ({ id, productName, image, brand, totalPrice, quantity }) => {
+const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeItemFromCart }) => {
     return (
         <Container>
             <img src={image} />
@@ -9,6 +9,7 @@ const CartItem = ({ id, productName, image, brand, totalPrice, quantity }) => {
                 <div>{quantity} יח'</div>
             </div>
             <div>₪{totalPrice}</div>
+            <div onClick={() => { removeItemFromCart(id) }}>X</div>
 
         </Container>
     )
@@ -17,7 +18,8 @@ const CartItem = ({ id, productName, image, brand, totalPrice, quantity }) => {
 export default CartItem;
 
 const Container = styled.div`
-display: flex;
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px black solid;
     padding: 5px;
 
