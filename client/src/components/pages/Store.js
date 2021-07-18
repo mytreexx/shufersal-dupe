@@ -70,7 +70,7 @@ const Store = ({ currentUser, logout }) => {
                 <CategoriesNav currentUser={currentUser} setProducts={setProducts} />
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
                 <Carousel store />
-                <ItemsContainer>
+                <Container>
                     {(products && cartItems) && products.map(product =>
                         <ProductItem
                             itemQuantity={getQuantity(product.id)}
@@ -84,7 +84,7 @@ const Store = ({ currentUser, logout }) => {
                             addOrUpdateItem={addOrUpdateItem}
                         />
                     )}
-                </ItemsContainer>
+                </Container>
             </div>
             <Cart
                 currentUser={currentUser}
@@ -99,32 +99,6 @@ const Store = ({ currentUser, logout }) => {
 }
 
 export default Store;
-
-// const CategoriesNav = styled.div`
-//     display: flex; 
-//     padding: 20px;
-//     padding-right: 50px;
-
-//     div {
-//         font-size: 16px;
-//         margin: 10px 0 10px 10px;
-//         padding: 5px 0 5px 10px;
-//         border-left: 2px solid #e0e2e9;
-//         cursor: pointer;
-
-//         :hover {
-//             color: #048BF3;
-//         }
-//     }
-
-//     div:last-child {
-//         border-left: none;
-//     }
-// `;
-
-const ItemsContainer = styled.div`
-    display: flex;
-`;
 
 const Container = styled.div`
     display: flex;
