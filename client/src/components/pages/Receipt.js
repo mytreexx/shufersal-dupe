@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import SecondaryNavbar from "../ui/SecondaryNavbar";
 import Logo from '../../assets/Shufersal-logo-large.png';
@@ -7,6 +7,10 @@ import Button from '../ui/Button';
 
 
 const Receipt = () => {
+    const dateFormat = (dateString) => dateString.split('-').reverse().join('/');
+    const { shippingDate: shippingDate } = useParams();
+    const { orderId: orderId } = useParams();
+
     return (
         <>
             <NavContainer>
@@ -16,7 +20,7 @@ const Receipt = () => {
 
             <Container>
                 <Header>ההזמנה שלך בוצעה בהצלחה!</Header>
-                <p>ההזמנה שלך לתאריך 06.05.1994 התקבלה במערכת ותישלח במועד</p>
+                <p>הזמנה מספר {orderId}<br/> תישלח אליך בתאריך {dateFormat(shippingDate)}</p>
                 <Link to="/">
                     <Button small >אישור וחזרה לאתר</Button>
                 </Link>
@@ -51,7 +55,8 @@ const Container = styled.div`
     padding-bottom: 50px;
 
     p {
-        padding: 50px;
+        padding: 30px;
+        text-align: center;
         
     }
 `;

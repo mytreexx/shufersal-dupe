@@ -70,7 +70,10 @@ router.post('/', verifyTokenOrError, (req, res) => {
                     order_date: formattedDate,
                     credit_card_last_digits: creditCard
                 });
-                res.send({ message: `order number ${newOrder.id} will be delivered at ${shippingDate}` });
+                res.send({
+                    orderId: newOrder.id,
+                    shippingDate: shippingDate
+                });
             } catch (e) {
                 console.error(e)
                 res.send(e)

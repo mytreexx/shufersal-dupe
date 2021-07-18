@@ -54,10 +54,10 @@ const OrderPage = ({ currentUser }) => {
                 .then((response) => {
                     if (response.ok) {
                         response.json()
-                        history.push({
-                            pathname: '/receipt',
-                            state: shippingDate
-                        });
+                            .then((response) => history.push({
+                                pathname: `/receipt/${response.shippingDate}/${response.orderId}`,
+                                state: shippingDate
+                            }));
                     } else {
                         response.json()
                             .then((response) => toast.error(response.error));

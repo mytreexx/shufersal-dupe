@@ -54,7 +54,7 @@ function App() {
         <OrderPage currentUser={currentUser} />
       </Route>
 
-      <Route path="/receipt">
+      <Route path="/receipt/:shippingDate/:orderId">
         <Receipt currentUser={currentUser} />
       </Route>
     </Switch>
