@@ -64,8 +64,3 @@ const Container = styled.div`
         text-align: center;
     }
 `;
-
-
-//     height: 110px;
-//     border-bottom: 1px #f0f3f9 solid;
-//     padding-right: 40px;
