@@ -3,6 +3,7 @@ const router = express.Router();
 const { Op, sequelize, Product, Category, Customer } = require('../models');
 const jwt = require('jsonwebtoken');
 const verifyTokenOrError = require('../utils/middlewares/JWT/verifyTokenOrError');
+const { cloudinary } = require('../utils/cloudinary');
 
 
 //get all categories
@@ -71,12 +72,13 @@ router.post('/new-item', verifyTokenOrError, (req, res) => {
         } else {
             if (authData.loggingInUser.is_admin) {
                 try {
+                    const uploadResponse = await cloudinary.uploader.upload(image);
                     await sequelize.sync();
                     await Product.create({
                         product_name: productName,
                         category_id: categoryId,
                         price,
-                        image,
+                        image: uploadResponse.secure_url,
                         brand
                     });
                     res.send();
