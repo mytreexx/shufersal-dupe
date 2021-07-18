@@ -5,15 +5,16 @@ import mall from '../../assets/Mall-2.png';
 import be from '../../assets/Be2.png';
 import green from '../../assets/Green2.png';
 import business from '../../assets/Business.png';
+import Logo from '../../assets/Shufersal-logo-large.png';
 
 const Navbar = () => {
     return (
         <Container>
+            <Link to='/'>
+                <img src={Logo}/>
+            </Link>
             <div>
-                <Link to="/">
-                    <img src={supermarket} />
-                </Link>
-
+                <img src={supermarket} />
                 <span><strong>סופרמרקט</strong></span>
             </div>
 

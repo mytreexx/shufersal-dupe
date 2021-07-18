@@ -14,7 +14,6 @@ const Receipt = () => {
     return (
         <>
             <NavContainer>
-                <img src={Logo} />
                 <Navbar />
             </NavContainer>
 

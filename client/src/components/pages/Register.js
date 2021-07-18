@@ -64,7 +64,6 @@ const Register = () => {
     return (
         <>
             <NavContainer>
-                <img src={Logo} />
                 <Navbar />
             </NavContainer>
 

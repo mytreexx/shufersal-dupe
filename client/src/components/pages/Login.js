@@ -38,7 +38,6 @@ const Login = ({ onUserChange }) => {
     return (
         <>
             <NavContainer>
-                <img src={Logo} />
                 <Navbar />
             </NavContainer>
 

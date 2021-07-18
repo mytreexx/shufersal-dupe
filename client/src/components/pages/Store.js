@@ -84,7 +84,6 @@ const Store = ({ currentUser, logout }) => {
         <Container>
             <div>
                 <NavContainer>
-                    <img src={Logo} />
                     <Navbar />
                 </NavContainer>
                 <CategoriesNav>

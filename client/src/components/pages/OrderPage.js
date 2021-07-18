@@ -73,7 +73,6 @@ const OrderPage = ({ currentUser }) => {
         <Container>
             <div>
                 <NavContainer>
-                    <img src={Logo} />
                     <Navbar />
                 </NavContainer>
 
