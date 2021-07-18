@@ -11,33 +11,37 @@ const getCart = async (customerId) => {
     const createNewCart = async () => {
         try {
             await sequelize.sync();
-            await ShoppingCart.create({
+            const newCart = await ShoppingCart.create({
                 customer_id: customerId,
                 created_at: formattedDate
             });
-            return ({ message: 'created new cart!' });
+
+            console.log('creating new cart', newCart.id);
+
+            return newCart;
         } catch (e) {
             console.error(e)
             res.send(e)
         }
     }
 
-    const cart = await ShoppingCart.findOne({
+    let cart = await ShoppingCart.findOne({
         where: { customer_id: customerId },
         order: [['id', 'DESC']],
     });
 
     if (cart) {
         const order = await Order.findOne({ where: { cart_id: cart.id } })
+        
         if (order) {
-            createNewCart();
-        } else {
-            const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
-            return (cartItems)
+            cart = createNewCart();
         }
     } else {
-        createNewCart();
+        cart = createNewCart();
     }
+
+    const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
+    return cartItems;
 }
 
 //check if there is an active cart and show items
