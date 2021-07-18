@@ -10,7 +10,7 @@ import ProductItem from "../ProductItem";
 import SearchInput from "../ui/SearchInput";
 import { Link } from "react-router-dom";
 
-const AdminPage = ({ currentUser }) => {
+const EditProductsPage = ({ currentUser }) => {
     const [products, setProducts] = useState();
 
     useEffect(() => {
@@ -50,7 +50,7 @@ const AdminPage = ({ currentUser }) => {
     )
 }
 
-export default AdminPage;
+export default EditProductsPage;
 
 const Container = styled.div`
     display: flex;
