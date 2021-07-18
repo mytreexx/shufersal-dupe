@@ -39,6 +39,10 @@ const Container = styled.div`
     border: 1px solid #e0e2e9;
     border-radius: 5px;
     height: 75px;
+    position: relative;
+    z-index: 2;
+    background-color: white;
+    opacity: 0.9;
 
     input {
         width: 90%;
