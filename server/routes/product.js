@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Op, sequelize, Product, Category } = require('../models');
+const { Op, sequelize, Product, Category, Customer } = require('../models');
 const jwt = require('jsonwebtoken');
 const verifyTokenOrError = require('../utils/middlewares/JWT/verifyTokenOrError');
 
@@ -34,7 +34,7 @@ router.get('/all', verifyTokenOrError, (req, res) => {
 //get all products by category
 router.post('/', verifyTokenOrError, (req, res) => {
 
-    jwt.verify(req.token, 'supersecretkey', async (err) => {
+    jwt.verify(req.token, 'supersecretkey', async (err, auth) => {
         if (err) {
             res.sendStatus(404);
         } else {
@@ -62,42 +62,63 @@ router.post('/search', verifyTokenOrError, (req, res) => {
 })
 
 //admin: add new products
-router.post('/new-item', async (req, res) => {
+router.post('/new-item', verifyTokenOrError, (req, res) => {
     const { productName, categoryId, price, image, brand } = req.body;
-    try {
-        await sequelize.sync();
-        await Product.create({
-            product_name: productName,
-            category_id: categoryId,
-            price,
-            image,
-            brand
-        });
-        res.send();
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
+
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            if (authData.loggingInUser.is_admin) {
+                try {
+                    await sequelize.sync();
+                    await Product.create({
+                        product_name: productName,
+                        category_id: categoryId,
+                        price,
+                        image,
+                        brand
+                    });
+                    res.send();
+                } catch (e) {
+                    console.error(e)
+                    res.send(e)
+                }
+            } else {
+                res.sendStatus(403);
+            }
+        }
+    });
 })
 
 //admin: edit products
-router.patch('/', async (req, res) => {
+router.patch('/', verifyTokenOrError, async (req, res) => {
     const { productId, productName, categoryId, price, image, brand } = req.body;
-    const product = await Product.findOne({ where: { id: productId } });
 
-    productName && (product.product_name = productName);
-    categoryId && (product.category_id = categoryId);
-    price && (product.price = price);
-    image && (product.image = image);
-    brand && (product.brand = brand);
+    jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
+        if (err) {
+            res.sendStatus(403);
+        } else {
+            if (authData.loggingInUser.is_admin) {
+                const product = await Product.findOne({ where: { id: productId } });
+                productName && (product.product_name = productName);
+                categoryId && (product.category_id = categoryId);
+                price && (product.price = price);
+                image && (product.image = image);
+                brand && (product.brand = brand);
 
-    try {
-        await product.save();
-        res.send(product);
-    } catch (e) {
-        console.error(e)
-        res.send(e)
-    }
+                try {
+                    await product.save();
+                    res.send(product);
+                } catch (e) {
+                    console.error(e)
+                    res.send(e)
+                }
+            } else {
+                res.sendStatus(403);
+            }
+        }
+    });
 })
 
 module.exports = router;
