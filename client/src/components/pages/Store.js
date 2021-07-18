@@ -70,7 +70,7 @@ const Store = ({ currentUser, logout }) => {
                 <CategoriesNav currentUser={currentUser} setProducts={setProducts} />
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
                 <Carousel store />
-                <Container>
+                <ProductsList>
                     {(products && cartItems) && products.map(product =>
                         <ProductItem
                             itemQuantity={getQuantity(product.id)}
@@ -84,7 +84,7 @@ const Store = ({ currentUser, logout }) => {
                             addOrUpdateItem={addOrUpdateItem}
                         />
                     )}
-                </Container>
+                </ProductsList>
             </div>
             <Cart
                 currentUser={currentUser}
@@ -102,4 +102,11 @@ export default Store;
 
 const Container = styled.div`
     display: flex;
+`;
+
+const ProductsList = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    align-self: center;
 `;
