@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, useHistory } from 'react-router-dom';
 
 import Navbar from '../ui/Navbar';
-import Logo from '../../assets/Shufersal-logo-large.png';
+import Header from "../ui/Header";
 import { getCartItems, getOrderDetails, onMakeOrder } from "../../utils";
 import Cart from '../Cart';
 import Input from "../ui/Input";
@@ -44,7 +44,7 @@ const OrderPage = ({ currentUser }) => {
                 setCity(data.customer.city);
                 setStreet(data.customer.street);
                 setAvailableDates(data.availableDates)
-                setShippingDate(availableDates[0])
+                // setShippingDate(availableDates[0])
             })
     }, []);
 
@@ -159,17 +159,6 @@ const Container = styled.div`
 const DisabledElement = styled.div`
     pointer-events: none;
     filter: grayscale(1) brightness(1.1);
-`;
-
-const Header = styled.div`
-    display: flex;
-    align-items: center;
-    padding-right: 50px;
-    background-color: #D51C4A;
-    height: 60px;
-    color: white;
-    font-size: 20px;
-    margin-bottom: 20px;
 `;
 
 const Select = styled.select`

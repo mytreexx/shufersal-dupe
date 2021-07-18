@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from '../ui/Navbar';
-import Logo from '../../assets/Shufersal-logo-large.png';
+import Header from '../ui/Header';
 import bgImage from '../../assets/register-bg.jpg';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -208,17 +208,6 @@ const Registration = styled.div`
     .Toastify__toast {
         background-color: #D51C4A;
     }
-`;
-
-const Header = styled.div`
-    display: flex;
-    background-color: #D51C4A;
-    color: white;
-    height: 70px;
-    font-size: 24px;
-    font-weight: normal;
-    align-items: center;
-    padding: 0 100px;
 `;
 
 const Form = styled.form`

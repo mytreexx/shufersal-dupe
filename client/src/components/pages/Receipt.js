@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 
 import Navbar from "../ui/Navbar";
-import Logo from '../../assets/Shufersal-logo-large.png';
+import Header from "../ui/Header";
 import Button from '../ui/Button';
 
 
@@ -37,7 +37,6 @@ const Container = styled.div`
     margin: auto;
     margin-top: 10%;
     border: 1px gray solid;
-    border-radius: 10px;
     width: 90%;
     max-width: 400px;
     height: 300px;
@@ -48,15 +47,4 @@ const Container = styled.div`
         text-align: center;
         
     }
-`;
-
-const Header = styled.div`
-    background-color: #D51C4A;
-    border-radius: 9px 9px 0 0;
-    box-sizing: border-box;
-    height: 50px;
-    color: white;
-    font-size: 20px;
-    padding: 10px;
-    width: 100%;
 `;

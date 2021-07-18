@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { BsPerson, BsTrash } from 'react-icons/bs';
 
 import CartItem from './CartItem';
+import Header from './ui/Header';
 
 const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logout }) => {
     const [totalCartPrice, setTotalCartPrice] = useState(0)
@@ -24,13 +25,13 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logou
     return (
         <Container>
             <div>
-                <Header>
+                <CartHeader>
                     <div>
                         <BsPerson />
                         <strong>שלום יוזר</strong>
                     </div>
                     <span onClick={logout}>התנתקות</span>
-                </Header>
+                </CartHeader>
 
                 <div className='trash' onClick={emptyCart}><BsTrash />מחיקת סל</div>
                 {cartItems && cartItems.map(item =>
@@ -75,15 +76,12 @@ const Container = styled.div`
     }
 `;
 
-const Header = styled.div`
-    box-sizing: border-box;
-    display: flex;
+const CartHeader = styled(Header)`
     justify-content: space-between;
-    background-color: #D51C4A;
-    align-content: center;
+    align-items: flex-start;
     height: 110px;
-    color: white;
     padding: 10px;
+    font-size: 16px;
 
     svg {
         width: 25px;
