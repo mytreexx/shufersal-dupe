@@ -1,17 +1,25 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Button from './ui/Button';
 import QuantityControllers from './ui/QuantityControllers';
 
 const ProductItem = ({ categoryId, id, image, name, brand, price, addOrUpdateItem, itemQuantity }) => {
-
+    const [showControllers, setShowControllers] = useState(false)
     return (
-        <Container>
+        <Container
+            onMouseEnter={() => setShowControllers(true)}
+            onMouseLeave={() => setShowControllers(false)}
+        >
             <img src={image} />
             <div>₪{price}</div>
             <div>{name}</div>
             <div>{brand}</div>
-            <QuantityControllers id={id} itemQuantity={itemQuantity} addOrUpdateItem={addOrUpdateItem} />
+
+            <QuantityControllers
+                id={id}
+                itemQuantity={itemQuantity}
+                addOrUpdateItem={addOrUpdateItem}
+                style={showControllers ? {opacity:'1'} : {opacity: '1'}}
+            />
         </Container>
     )
 }

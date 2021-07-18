@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../ui/Button';
 
-const QuantityControllers = ({ addOrUpdateItem, id, itemQuantity }) => {
+const QuantityControllers = ({ addOrUpdateItem, id, itemQuantity, ...props }) => {
 
     const [quantity, setQuantity] = useState(itemQuantity);
 
@@ -10,7 +10,7 @@ const QuantityControllers = ({ addOrUpdateItem, id, itemQuantity }) => {
         setQuantity(quantity => quantity > 1 ? quantity - 1 : quantity)
     }
     return (
-        <Container>
+        <Container {...props}>
             <div
                 className="unit-button"
                 onClick={() => { setQuantity(quantity + 1) }}
@@ -43,11 +43,7 @@ const Container = styled.div`
     display: flex;
     align-content: center;
     align-items: center;
-    opacity:0;
-
-    :hover {
-        opacity: 1;
-    }
+    ${(props) => (props.small && 'transform: scale(0.7) translateX(40px)')};
 
     > * {
         margin-right: 5px;
@@ -75,9 +71,7 @@ const Container = styled.div`
 
         :hover {
         border: 2px solid #D51C4A;
-        }
-
-        
+        }     
     }
 
     input::-webkit-outer-spin-button,

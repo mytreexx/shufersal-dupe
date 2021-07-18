@@ -10,11 +10,11 @@ const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeI
 
     return (
         <Container
-            onMouseEnter={() => setShowControllers(true)}
-            onMouseLeave={() => setShowControllers(false)}
+        onMouseEnter={() => setShowControllers(true)}
+        onMouseLeave={() => setShowControllers(false)}
         >
             <div>
-                {showControllers && <div onClick={() => { removeItemFromCart(id) }}><BsXCircle className="controllers" /></div>}
+                {showControllers && <div onClick={() => { removeItemFromCart(id) }}><BsXCircle className="delete-btn" /></div>}
 
                 <img src={image} />
             </div>
@@ -25,7 +25,6 @@ const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeI
                 {showControllers ?
                     <QuantityControllers
                         small
-                        className="controllers"
                         addOrUpdateItem={addOrUpdateItem}
                         id={id}
                         itemQuantity={quantity}
@@ -54,7 +53,7 @@ const Container = styled.div`
         margin-left: 5px;
     }
 
-    .controllers {
+    .delete-btn {
         position: absolute;
     }
 
@@ -64,10 +63,6 @@ const Container = styled.div`
         width: 20px;
         height: 20px;
         transition: .3s;
-    }
-
-    :hover .controllers {
-        opacity: 1;
     }
 
     div {
@@ -81,7 +76,10 @@ const ItemDescription = styled.div`
     align-items: flex-start;
     /* border: 1px red solid; */
     width: 100%;
+    height:75px;
     font-size: 14px;
+    padding: 0;
+
 `;
 
 const Price = styled.div`
