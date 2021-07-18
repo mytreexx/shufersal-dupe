@@ -51,7 +51,7 @@ const OrderPage = ({ currentUser, userDetails }) => {
                 setCity(data.customer.city);
                 setStreet(data.customer.street);
                 setAvailableDates(data.availableDates)
-                // setShippingDate(availableDates[0])
+                setShippingDate(data.availableDates[0])
             })
     }, []);
 

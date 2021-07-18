@@ -10,8 +10,8 @@ import CategoriesNav from '../ui/CategoriesNav';
 import { getAllProducts, getCartItems, addOrUpdateItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
 
 const Store = ({ currentUser, userDetails, logout }) => {
-    const [products, setProducts] = useState();
-    const [cartItems, setCartItems] = useState();
+    const [products, setProducts] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
         getAllProducts(currentUser)
@@ -71,7 +71,7 @@ const Store = ({ currentUser, userDetails, logout }) => {
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
                 <Carousel store />
                 <ProductsList>
-                    {(products && cartItems) && products.map(product =>
+                    {products.map(product =>
                         <ProductItem
                             itemQuantity={getQuantity(product.id)}
                             key={product.id}
