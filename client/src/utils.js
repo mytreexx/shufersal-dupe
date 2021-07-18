@@ -199,3 +199,22 @@ export const onMakeOrder = (currentUser, city, street, shippingDate, creditCard)
 
     return fetch(`${serverUrl}/order`, requestOptions)
 }
+
+export const createNewProduct = (currentUser, productName, categoryId, price, image, brand) => {
+    const requestOptions = {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        },
+        body: JSON.stringify({
+            productName,
+            categoryId,
+            price,
+            image,
+            brand
+        }),
+    };
+
+    return fetch(`${serverUrl}/product/new-item`, requestOptions)
+}
