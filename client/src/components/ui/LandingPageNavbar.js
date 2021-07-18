@@ -70,7 +70,7 @@ const LandingPageNavbar = ({ currentUser, customerName, messageToUser, hasActive
                 </NavigationContainer>
             </MainContainer>
 
-            <Navbar />
+            <Navbar size='small' />
         </Nav>
     )
 }
