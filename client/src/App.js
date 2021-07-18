@@ -8,6 +8,7 @@ import Login from './components/pages/Login';
 import Store from './components/pages/Store';
 import OrderPage from './components/pages/OrderPage';
 import Receipt from './components/pages/Receipt';
+import AdminPage from './components/pages/AdminPage';
 
 
 function App() {
@@ -56,6 +57,10 @@ function App() {
 
       <Route path="/receipt/:shippingDate/:orderId">
         <Receipt currentUser={currentUser} />
+      </Route>
+
+      <Route path="/admin">
+        <AdminPage currentUser={currentUser} />
       </Route>
     </Switch>
   );
