@@ -9,7 +9,7 @@ import SearchInput from '../ui/SearchInput';
 import Cart from '../Cart';
 import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addOrUpdateItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
 
-const Store = ({ currentUser }) => {
+const Store = ({ currentUser, logout }) => {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState();
     const [cartItems, setCartItems] = useState();
@@ -102,7 +102,7 @@ const Store = ({ currentUser }) => {
 
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
 
-                <Carousel />
+                <Carousel store/>
                 <ItemsContainer>
                     {(products && cartItems) && products.map(product =>
                         <ProductItem
@@ -125,6 +125,7 @@ const Store = ({ currentUser }) => {
                 removeItemFromCart={removeItemFromCart}
                 emptyCart={emptyCart}
                 addOrUpdateItem={addOrUpdateItem}
+                logout={logout}
             />
         </Container>
     )
@@ -167,5 +168,5 @@ const ItemsContainer = styled.div`
 `;
 
 const Container = styled.div`
-display: flex;
+    display: flex;
 `;

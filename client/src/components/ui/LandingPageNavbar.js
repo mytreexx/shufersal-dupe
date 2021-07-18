@@ -11,7 +11,7 @@ import accessibility from '../../assets/disabled-sign-icon.png'
 import SecondaryNavbar from './SecondaryNavbar';
 
 
-const LandingPageNavbar = ({ customerName, messageToUser, hasActiveCart }) => {
+const LandingPageNavbar = ({ currentUser, customerName, messageToUser, hasActiveCart, logout }) => {
     return (
         <Nav>
             <MainContainer>
@@ -20,11 +20,30 @@ const LandingPageNavbar = ({ customerName, messageToUser, hasActiveCart }) => {
                         <img src={ShoppingCart} alt="cart" />
                         <div >
                             <span><strong>שלום {customerName}</strong></span>
-                            <span>{messageToUser} <Link to="/login">התחברות</Link> | <Link to="/register">הרשמה</Link></span>
+                            <span>{messageToUser}
+                                &nbsp;
+                                {currentUser ? <span onClick={logout} style={{ textDecoration: "underline", fontWeight: "bold" }}>התנתקות</span> : <span><Link to="/login">התחברות</Link> | <Link to="/register">הרשמה</Link></span>}
+
+                            </span>
                         </div>
                     </div>
 
-                    <StartShopping>{hasActiveCart ? "להמשך קניה ב" : "התחלת קניה ב"}<img src={shufersalOnline}></img></StartShopping>
+                    {currentUser ?
+                        <Link to='/store'>
+                            <StartShopping>
+                                {hasActiveCart ? "להמשך קניה ב" : "התחלת קניה ב"}
+                                <img src={shufersalOnline} />
+                            </StartShopping>
+                        </Link>
+                        :
+                        <Link to='/login'>
+                            <StartShopping>
+                                התחלת קניה ב
+                                <img src={shufersalOnline} />
+                            </StartShopping>
+                        </Link>
+                    }
+
                 </AuthContainer>
 
                 <NavigationContainer>

@@ -8,7 +8,7 @@ import advertisement2 from '../../assets/advertisement2.jpg';
 import { getStoreDetails } from '../../utils';
 
 
-const LandingPage = ({ currentUser }) => {
+const LandingPage = ({ currentUser, logout }) => {
     const [numberOfProducts, setNumberOfProducts] = useState();
     const [numberOfOrders, setNumberOfOrders] = useState();
     const [messageToUser, setMessageToUser] = useState();
@@ -30,7 +30,7 @@ const LandingPage = ({ currentUser }) => {
 
     return (
         <Container>
-            <LandingPageNavbar customerName={customerName} messageToUser={messageToUser} hasActiveCart={hasActiveCart} />
+            <LandingPageNavbar logout={logout} customerName={customerName} currentUser={currentUser} messageToUser={messageToUser} hasActiveCart={hasActiveCart} />
             <Carousel />
             <Announcement>
                 לקוחות שופרסל Online,
