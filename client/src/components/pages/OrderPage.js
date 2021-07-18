@@ -11,8 +11,10 @@ import Button from '../ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const OrderPage = ({ currentUser }) => {
     const [cartItems, setCartItems] = useState();
+    const [availableDates, setAvailableDates] = useState();
 
     const [city, setCity] = useState();
     const [street, setStreet] = useState();
@@ -91,13 +93,15 @@ const OrderPage = ({ currentUser }) => {
                     onChange={(e) => setStreet(e.target.value)}
                 />
 
-                <Input
-                    required
-                    label="תאריך למשלוח"
-                    type="date"
-                    value={shippingDate}
-                    onChange={(e) => setShippingDate(e.target.value)}
-                />
+                    <Label>
+                        תאריך למשלוח
+                        <Select onChange={(e) => setShippingDate(e.target.value)}>
+                            {availableDates && availableDates.map(date =>
+                                <option value={date}>{dateFormat(date)}</option>
+                            )}
+                        </Select>
+                    </Label>
+
                 <Input
                     required
                     label="אמצעי תשלום"
