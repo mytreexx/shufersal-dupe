@@ -21,7 +21,6 @@ const Login = ({ onUserChange }) => {
 
     const loginUser = (e) => {
         e.preventDefault();
-        console.log(idNumber, password)
 
         getLogin(idNumber, password)
             .then((response) => {

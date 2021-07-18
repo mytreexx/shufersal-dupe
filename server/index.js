@@ -29,7 +29,6 @@ const clientPath = path.join(__dirname, '../', 'client', 'build');
 app.use(express.static(clientPath))
 
 app.get('*', (req, res) => {
-    console.log('hi')
     res.sendFile(path.join(clientPath, 'index.html'));
 });
 

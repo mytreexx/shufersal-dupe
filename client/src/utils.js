@@ -1,7 +1,6 @@
 const serverUrl = process.env.REACT_APP_SERVER_URL || 'api/';
 
 export const getStoreDetails = (currentUser) => {
-    console.log('getStoreDetails', currentUser)
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -182,8 +181,6 @@ export const getOrderDetails = (currentUser) => {
 }
 
 export const onMakeOrder = (currentUser, city, street, shippingDate, creditCard) => {
-    console.log(city, street, shippingDate, creditCard, currentUser)
-
     const requestOptions = {
         method: 'POST',
         headers: {

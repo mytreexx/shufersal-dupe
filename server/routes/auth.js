@@ -64,7 +64,6 @@ router.post('/login', async (req, res) => {
     const { idNumber, password } = req.body;
 
     const loggingInUser = await Customer.findOne({ where: { id: idNumber } });
-    console.log(loggingInUser)
 
     if (!loggingInUser) {
         res.status(401).send({ error: 'משתמש לא נמצא' })

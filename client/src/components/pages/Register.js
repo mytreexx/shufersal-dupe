@@ -33,7 +33,6 @@ const Register = () => {
 
     const checkForm = (e) => {
         e.preventDefault();
-        console.log(idNumber, email, password, confirmPassword)
 
         checkForRegistration(idNumber, email, password, confirmPassword)
             .then((response) => {
@@ -48,7 +47,6 @@ const Register = () => {
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(idNumber, email, password, confirmPassword, firstName, lastName, street, city)
         completeRegistration(idNumber, email, password, confirmPassword, firstName, lastName, street, city)
             .then((response) => {
                 if (response.ok) {

@@ -50,7 +50,6 @@ router.post('/', verifyTokenOrError, (req, res) => {
 //search for product
 router.post('/search', verifyTokenOrError, (req, res) => {
     const { searchTerm } = req.body;
-    console.log(searchTerm)
 
     jwt.verify(req.token, 'supersecretkey', async (err) => {
         if (err) {

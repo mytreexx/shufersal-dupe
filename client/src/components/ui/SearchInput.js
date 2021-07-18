@@ -8,7 +8,6 @@ const SearchInput = ({ currentUser, setProducts }) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const searchForProducts = () => {
-        console.log(currentUser)
         getSearchedProducts(currentUser, searchTerm)
             .then(response => response.json())
             .then(data => {

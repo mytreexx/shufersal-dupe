@@ -18,7 +18,6 @@ const LandingPage = ({ currentUser, userDetails, logout }) => {
         getStoreDetails(currentUser)
             .then(response => response.json())
             .then((result) => {
-                console.log(result)
                 setNumberOfProducts(result.numberOfProducts);
                 setNumberOfOrders(result.numberOfOrders);
                 setMessageToUser(result.messageToUser);
