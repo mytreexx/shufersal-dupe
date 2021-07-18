@@ -9,7 +9,7 @@ import Banner4 from '../../assets/banner4.jpg';
 import Banner5 from '../../assets/banner5.jpg';
 
 
-const Carousel = () => {
+const Carousel = ({ ...props }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const banners = [
@@ -29,7 +29,7 @@ const Carousel = () => {
     }, []);
 
     return (
-        <Container>
+        <Container{...props}>
             <Slide src={banners[currentSlide]} alt="ad banner" />
 
             <Controllers>
@@ -58,6 +58,7 @@ export default Carousel;
 const Container = styled.div`
     width: 100%;
     color: #6d7a99;
+    margin-top: ${(props) => (props.store ? '-100px' : '0')};
     
     .active {
         width: 15px;
