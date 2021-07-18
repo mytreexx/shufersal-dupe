@@ -1,15 +1,19 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import supermarket from '../../assets/Supermarket2.png';
 import mall from '../../assets/Mall-2.png';
 import be from '../../assets/Be2.png';
 import green from '../../assets/Green2.png';
 import business from '../../assets/Business.png';
 
-const SecondaryNavbar = () => {
+const Navbar = () => {
     return (
         <Container>
             <div>
-                <img src={supermarket} />
+                <Link to="/">
+                    <img src={supermarket} />
+                </Link>
+
                 <span><strong>סופרמרקט</strong></span>
             </div>
 
@@ -40,7 +44,7 @@ const SecondaryNavbar = () => {
     )
 }
 
-export default SecondaryNavbar;
+export default Navbar;
 
 const Container = styled.div`
     display: flex;

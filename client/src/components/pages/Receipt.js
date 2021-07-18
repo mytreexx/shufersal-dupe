@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 
-import SecondaryNavbar from "../ui/SecondaryNavbar";
+import Navbar from "../ui/Navbar";
 import Logo from '../../assets/Shufersal-logo-large.png';
 import Button from '../ui/Button';
 
@@ -15,7 +15,7 @@ const Receipt = () => {
         <>
             <NavContainer>
                 <img src={Logo} />
-                <SecondaryNavbar />
+                <Navbar />
             </NavContainer>
 
             <Container>

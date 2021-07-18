@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import SecondaryNavbar from '../ui/SecondaryNavbar';
+import Navbar from '../ui/Navbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
 import bgImage from '../../assets/register-bg.jpg';
 import Input from '../ui/Input';
@@ -65,7 +65,7 @@ const Register = () => {
         <>
             <NavContainer>
                 <img src={Logo} />
-                <SecondaryNavbar />
+                <Navbar />
             </NavContainer>
 
             <MainContainer>

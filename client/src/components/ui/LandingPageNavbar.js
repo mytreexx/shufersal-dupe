@@ -8,7 +8,7 @@ import profileIcon from '../../assets/profile-icon.png';
 import locationIcon from '../../assets/gps-icon.png';
 import callCenterIcon from '../../assets/call-center-agent-icon.png'
 import accessibility from '../../assets/disabled-sign-icon.png'
-import SecondaryNavbar from './SecondaryNavbar';
+import Navbar from './Navbar';
 
 
 const LandingPageNavbar = ({ currentUser, customerName, messageToUser, hasActiveCart, logout }) => {
@@ -70,7 +70,7 @@ const LandingPageNavbar = ({ currentUser, customerName, messageToUser, hasActive
                 </NavigationContainer>
             </MainContainer>
 
-            <SecondaryNavbar />
+            <Navbar />
         </Nav>
     )
 }

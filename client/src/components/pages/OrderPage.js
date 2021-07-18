@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from 'react-router-dom';
 
-import SecondaryNavbar from '../ui/SecondaryNavbar';
+import Navbar from '../ui/Navbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
 import { getCartItems, getOrderDetails, onMakeOrder } from "../../utils";
 import Cart from '../Cart';
@@ -74,7 +74,7 @@ const OrderPage = ({ currentUser }) => {
             <div>
                 <NavContainer>
                     <img src={Logo} />
-                    <SecondaryNavbar />
+                    <Navbar />
                 </NavContainer>
 
                 <Header>

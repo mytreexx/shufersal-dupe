@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import SecondaryNavbar from '../ui/SecondaryNavbar';
+import Navbar from '../ui/Navbar';
 import Logo from '../../assets/Shufersal-logo-large.png';
 import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
@@ -85,7 +85,7 @@ const Store = ({ currentUser, logout }) => {
             <div>
                 <NavContainer>
                     <img src={Logo} />
-                    <SecondaryNavbar />
+                    <Navbar />
                 </NavContainer>
                 <CategoriesNav>
                     {categories && categories.map(category =>
@@ -102,7 +102,7 @@ const Store = ({ currentUser, logout }) => {
 
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
 
-                <Carousel store/>
+                <Carousel store />
                 <ItemsContainer>
                     {(products && cartItems) && products.map(product =>
                         <ProductItem
