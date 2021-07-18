@@ -26,7 +26,7 @@ router.get('/all', verifyTokenOrError, (req, res) => {
         if (err) {
             res.sendStatus(404);
         } else {
-            const products = await Product.findAll({});
+            const products = await Product.findAll({include: { model: Category } });
             res.send(products)
         }
     });

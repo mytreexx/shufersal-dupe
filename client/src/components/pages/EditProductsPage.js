@@ -34,6 +34,7 @@ const EditProductsPage = ({ currentUser }) => {
                         id={product.id}
                         name={product.product_name}
                         catagoryId={product.category_id}
+                        categoryName={product.categorie.category}
                         price={product.price}
                         image={product.image}
                         brand={product.brand}
@@ -44,9 +45,7 @@ const EditProductsPage = ({ currentUser }) => {
             <AddButtonLink to='/add'>
                 <BsPlusCircle />
             </AddButtonLink>
-
         </>
-
     )
 }
 
@@ -54,6 +53,7 @@ export default EditProductsPage;
 
 const Container = styled.div`
     display: flex;
+    flex-wrap: wrap;
 `;
 
 const AddButtonLink = styled(Link)`
