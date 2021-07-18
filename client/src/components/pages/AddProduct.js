@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { ToastContainer, toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from "../ui/Navbar";
 import Header from "../ui/Header";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import Spinner from "../ui/Spinner";
 import { getCategoriesFromServer, createNewProduct } from '../../utils';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 const AddProduct = ({ currentUser }) => {
@@ -18,6 +20,7 @@ const AddProduct = ({ currentUser }) => {
     const [brand, setBrand] = useState();
 
     const [categories, setCategories] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getCategoriesFromServer(currentUser)
@@ -32,9 +35,11 @@ const AddProduct = ({ currentUser }) => {
 
     const addProduct = (e) => {
         e.preventDefault()
+        setIsLoading(true);
         createNewProduct(currentUser, productName, categoryId, price, image, brand)
             .then((response) => {
                 if (response.ok) {
+                    setIsLoading(false);
                     toast.success('המוצר נוסף בהצלחה')
                 } else {
                     response.json()
@@ -122,7 +127,9 @@ const AddProduct = ({ currentUser }) => {
                     <Button type="submit" small>הוספת מוצר</Button>
                     <Button onClick={clearForm} type="button" light small>איפוס טופס</Button>
                 </div>
-                {image && <img src={image} alt="preview" />}
+                <Link to='/editProducts'>- חזרה לעריכת מוצרים</Link>
+                {isLoading && <Spinner />}
+                {image && !isLoading && <img src={image} alt="preview" />}
             </Form>
 
 
@@ -155,6 +162,13 @@ const Form = styled.form`
 
     img {
         width: 250px;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        color: #D51C4A;
     }
 `;
 
