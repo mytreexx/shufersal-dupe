@@ -14,6 +14,7 @@ const AddProduct = ({ currentUser }) => {
     const [price, setPrice] = useState();
     const [image, setImage] = useState();
     const [brand, setBrand] = useState();
+
     const [categories, setCategories] = useState();
 
     useEffect(() => {
@@ -27,10 +28,30 @@ const AddProduct = ({ currentUser }) => {
             })
     }, []);
 
-    const addProduct = (e) => {
+    const addProduct = (e, productName, categoryId, price, image, brand) => {
         e.preventDefault()
         console.log(productName, categoryId, price, image, brand)
+        clearForm();
     }
+
+    const clearForm = () => {
+        setProductName("")
+        setCategoryId("")
+        setPrice("")
+        setImage("")
+        setBrand("")
+    }
+
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        previewFile(file);
+    };
+
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => setImage(reader.result);
+    };
 
     return (
         <>
@@ -70,17 +91,21 @@ const AddProduct = ({ currentUser }) => {
                 />
 
 
-                <Input
+                <Input style={{ fontSize: '14px' }}
                     required
                     label="תמונה"
-                    type="text"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
+                    type="file"
+                    onChange={handleFileInputChange}
                 />
 
-                <Button type="submit">הוספת מוצר</Button>
-
+                <div className="buttons">
+                    <Button type="submit" small>הוספת מוצר</Button>
+                    <Button onClick={clearForm} type="button" light small>איפוס טופס</Button>
+                </div>
+                {image && <img src={image} alt="preview" />}
             </Form>
+
+
         </>
     )
 }
@@ -94,6 +119,14 @@ const Form = styled.form`
     margin-top: 50px;
     > * {
         margin-bottom: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        width: 250px;
+         button {
+             margin-left: 10px;
+         }
     }
 `;
 
