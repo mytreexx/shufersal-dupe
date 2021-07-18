@@ -111,6 +111,7 @@ const AddProduct = ({ currentUser }) => {
                     required
                     label="מחיר"
                     type="number"
+                    step="any"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                 />

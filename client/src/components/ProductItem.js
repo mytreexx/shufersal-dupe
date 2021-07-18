@@ -128,6 +128,9 @@ const Container = styled.div`
     margin: 10px;
     transition: .5s;
     padding: 10px;
+    .Toastify__toast {
+        background-color: #D51C4A;
+    }
 
     :hover {
         border: 1px solid #D51C4A;
