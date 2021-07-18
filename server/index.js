@@ -18,7 +18,7 @@ app.use(express.json({
     limit: '100mb'
 }));
 
-app.use(authRoute)
+app.use('/api', authRoute)
 app.use('/api/order', orderRoute)
 app.use('/api/product', productRoute)
 app.use('/api/details', detailsRoute)
