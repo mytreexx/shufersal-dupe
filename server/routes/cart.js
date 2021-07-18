@@ -34,10 +34,10 @@ const getCart = async (customerId) => {
         const order = await Order.findOne({ where: { cart_id: cart.id } })
         
         if (order) {
-            cart = createNewCart();
+            cart = await createNewCart();
         }
     } else {
-        cart = createNewCart();
+        cart = await createNewCart();
     }
 
     const cartItems = await CartItem.findAll({ where: { cart_id: cart.id }, include: { model: Product } })
