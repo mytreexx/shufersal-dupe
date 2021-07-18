@@ -83,9 +83,7 @@ const Store = ({ currentUser, logout }) => {
     return (
         <Container>
             <div>
-                <NavContainer>
-                    <Navbar />
-                </NavContainer>
+                <Navbar />
                 <CategoriesNav>
                     {categories && categories.map(category =>
                         <div
@@ -131,14 +129,6 @@ const Store = ({ currentUser, logout }) => {
 }
 
 export default Store;
-
-const NavContainer = styled.div`
-    display: flex;
-    height: 110px;
-    align-items: center;
-    border-bottom: 1px #f0f3f9 solid;
-    padding-right: 40px;
-`;
 
 const CategoriesNav = styled.div`
     display: flex; 

@@ -13,13 +13,11 @@ const Receipt = () => {
 
     return (
         <>
-            <NavContainer>
-                <Navbar />
-            </NavContainer>
+            <Navbar />
 
             <Container>
                 <Header>ההזמנה שלך בוצעה בהצלחה!</Header>
-                <p>הזמנה מספר {orderId}<br/> תישלח אליך בתאריך {dateFormat(shippingDate)}</p>
+                <p>הזמנה מספר {orderId}<br /> תישלח אליך בתאריך {dateFormat(shippingDate)}</p>
                 <Link to="/">
                     <Button small >אישור וחזרה לאתר</Button>
                 </Link>
@@ -30,14 +28,6 @@ const Receipt = () => {
 }
 
 export default Receipt;
-
-const NavContainer = styled.div`
-    display: flex;
-    height: 110px;
-    align-items: center;
-    border-bottom: 1px #f0f3f9 solid;
-    padding-right: 40px;
-`;
 
 const Container = styled.div`
     display: flex;

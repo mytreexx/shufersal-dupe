@@ -72,10 +72,8 @@ const OrderPage = ({ currentUser }) => {
     return (
         <Container>
             <div>
-                <NavContainer>
-                    <Navbar />
-                </NavContainer>
 
+                <Navbar />
                 <Header>
                     ביצוע הזמנה
                 </Header>
@@ -136,14 +134,6 @@ const OrderPage = ({ currentUser }) => {
 }
 
 export default OrderPage;
-
-const NavContainer = styled.div`
-    display: flex;
-    height: 110px;
-    align-items: center;
-    border-bottom: 1px #f0f3f9 solid;
-    padding-right: 40px;
-`;
 
 const OrderForm = styled.form`
     margin: 80px;

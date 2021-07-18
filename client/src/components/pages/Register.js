@@ -63,9 +63,7 @@ const Register = () => {
 
     return (
         <>
-            <NavContainer>
-                <Navbar />
-            </NavContainer>
+            <Navbar />
 
             <MainContainer>
                 <Registration>
@@ -189,14 +187,6 @@ const Register = () => {
 }
 
 export default Register;
-
-const NavContainer = styled.div`
-    display: flex;
-    height: 110px;
-    align-items: center;
-    border-bottom: 1px #f0f3f9 solid;
-    padding-right: 40px;
-`;
 
 const MainContainer = styled.div`
     display: flex;
