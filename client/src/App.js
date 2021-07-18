@@ -64,7 +64,7 @@ function App() {
         <EditProductsPage currentUser={currentUser} />
       </Route>
 
-      <Route path="/addProducts">
+      <Route path="/addProduct">
         <AddProduct currentUser={currentUser} />
       </Route>
     </Switch>
