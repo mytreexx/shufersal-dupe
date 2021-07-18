@@ -2,25 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Navbar from '../ui/Navbar';
-import Logo from '../../assets/Shufersal-logo-large.png';
 import ProductItem from '../ProductItem';
 import Carousel from '../ui/Carousel';
 import SearchInput from '../ui/SearchInput';
 import Cart from '../Cart';
-import { getCategoriesFromServer, getAllProducts, onGetCategoryItems, getCartItems, addOrUpdateItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
+import CategoriesNav from '../ui/CategoriesNav';
+import { getAllProducts, getCartItems, addOrUpdateItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
 
 const Store = ({ currentUser, logout }) => {
-    const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState();
     const [cartItems, setCartItems] = useState();
-
-    useEffect(() => {
-        getCategoriesFromServer(currentUser)
-            .then(response => response.json())
-            .then(data => {
-                setCategories(data)
-            })
-    }, []);
 
     useEffect(() => {
         getAllProducts(currentUser)
@@ -37,14 +28,6 @@ const Store = ({ currentUser, logout }) => {
                 setCartItems(data)
             })
     }, []);
-
-    const getCategoryItems = (catagoryId) => {
-        onGetCategoryItems(currentUser, catagoryId)
-            .then(response => response.json())
-            .then(data => {
-                setProducts(data)
-            })
-    }
 
     const addOrUpdateItem = (id, quantity) => {
         addOrUpdateItemToCart(currentUser, id, quantity)
@@ -84,21 +67,8 @@ const Store = ({ currentUser, logout }) => {
         <Container>
             <div>
                 <Navbar />
-                <CategoriesNav>
-                    {categories && categories.map(category =>
-                        <div
-                            key={category.id}
-                            onClick={() => {
-                                getCategoryItems(category.id)
-                            }}
-                        >
-                            {category.category}
-                        </div>
-                    )}
-                </CategoriesNav>
-
+                <CategoriesNav currentUser={currentUser} setProducts={setProducts} />
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
-
                 <Carousel store />
                 <ItemsContainer>
                     {(products && cartItems) && products.map(product =>
@@ -130,27 +100,27 @@ const Store = ({ currentUser, logout }) => {
 
 export default Store;
 
-const CategoriesNav = styled.div`
-    display: flex; 
-    padding: 20px;
-    padding-right: 50px;
+// const CategoriesNav = styled.div`
+//     display: flex; 
+//     padding: 20px;
+//     padding-right: 50px;
 
-    div {
-        font-size: 16px;
-        margin: 10px 0 10px 10px;
-        padding: 5px 0 5px 10px;
-        border-left: 2px solid #e0e2e9;
-        cursor: pointer;
+//     div {
+//         font-size: 16px;
+//         margin: 10px 0 10px 10px;
+//         padding: 5px 0 5px 10px;
+//         border-left: 2px solid #e0e2e9;
+//         cursor: pointer;
 
-        :hover {
-            color: #048BF3;
-        }
-    }
+//         :hover {
+//             color: #048BF3;
+//         }
+//     }
 
-    div:last-child {
-        border-left: none;
-    }
-`;
+//     div:last-child {
+//         border-left: none;
+//     }
+// `;
 
 const ItemsContainer = styled.div`
     display: flex;
