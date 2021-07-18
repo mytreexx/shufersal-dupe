@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 
 const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeItemFromCart, addOrUpdateItem }) => {
-    const [showControllers, setShowControllers] = useState(true)
+    const [showControllers, setShowControllers] = useState(false)
 
     return (
         <Container
@@ -18,7 +18,6 @@ const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeI
 
                 <img src={image} />
             </div>
-
 
             <ItemDescription>
                 <div>{productName}</div>
@@ -35,13 +34,7 @@ const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeI
                     <div>{quantity} יח'</div>}
 
             </ItemDescription>
-
-
             <Price>₪{totalPrice}</Price>
-
-
-
-
         </Container>
     )
 }
@@ -80,8 +73,6 @@ const Container = styled.div`
     div {
         display: flex;
     }
-
-    
 `;
 
 const ItemDescription = styled.div`
