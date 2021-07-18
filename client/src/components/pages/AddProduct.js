@@ -5,7 +5,9 @@ import Navbar from "../ui/Navbar";
 import Header from "../ui/Header";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import { getCategoriesFromServer } from '../../utils';
+import { getCategoriesFromServer, createNewProduct } from '../../utils';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AddProduct = ({ currentUser }) => {
@@ -28,9 +30,17 @@ const AddProduct = ({ currentUser }) => {
             })
     }, []);
 
-    const addProduct = (e, productName, categoryId, price, image, brand) => {
+    const addProduct = (e) => {
         e.preventDefault()
-        console.log(productName, categoryId, price, image, brand)
+        createNewProduct(currentUser, productName, categoryId, price, image, brand)
+            .then((response) => {
+                if (response.ok) {
+                    toast.success('המוצר נוסף בהצלחה')
+                } else {
+                    response.json()
+                        .then((response) => toast.error(response.error));
+                }
+            });
         clearForm();
     }
 
@@ -57,7 +67,17 @@ const AddProduct = ({ currentUser }) => {
         <>
             <Navbar />
             <Header>עריכת מוצרים</Header>
+
             <Form onSubmit={addProduct}>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                />
 
                 <Input
                     required
@@ -127,6 +147,14 @@ const Form = styled.form`
          button {
              margin-left: 10px;
          }
+    }
+      
+    .Toastify__toast {
+        background-color: #D51C4A;
+    }
+
+    img {
+        width: 250px;
     }
 `;
 
