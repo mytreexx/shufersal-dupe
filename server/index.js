@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+
 const app = express();
 
 const authRoute = require('./routes/auth');
@@ -17,11 +19,22 @@ app.use(express.json({
 }));
 
 app.use(authRoute)
-app.use('/order', orderRoute)
-app.use('/product', productRoute)
-app.use('/details', detailsRoute)
-app.use('/cart', cartRoute)
+app.use('/api/order', orderRoute)
+app.use('/api/product', productRoute)
+app.use('/api/details', detailsRoute)
+app.use('/api/cart', cartRoute)
 
-app.listen(1337, () => {
-    console.log('the server is listening on port 1337')
+const clientPath = path.join(__dirname, '../', 'client', 'build');
+
+app.use(express.static(clientPath))
+
+app.get('*', (req, res) => {
+    console.log('hi')
+    res.sendFile(path.join(clientPath, 'index.html'));
+});
+
+const port = process.env.PORT || 1337;
+
+app.listen(port, () => {
+    console.log(`the server is listening on port ${port}`);
 })

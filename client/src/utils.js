@@ -1,4 +1,4 @@
-const serverUrl = process.env.REACT_APP_SERVER_URL || '';
+const serverUrl = process.env.REACT_APP_SERVER_URL || 'api/';
 
 export const getStoreDetails = (currentUser) => {
     console.log('getStoreDetails', currentUser)
