@@ -5,7 +5,7 @@ import { useState } from "react";
 import { getSearchedProducts } from '../../utils';
 
 const SearchInput = ({ currentUser, setProducts }) => {
-    const [searchTerm, setSearchTerm] = useState();
+    const [searchTerm, setSearchTerm] = useState("");
 
     const searchForProducts = () => {
         console.log(currentUser)
