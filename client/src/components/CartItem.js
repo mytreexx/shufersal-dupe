@@ -1,23 +1,46 @@
 import styled from 'styled-components';
 import QuantityControllers from '../components/ui/QuantityControllers';
 
+import { BsXCircle } from 'react-icons/bs'
+import { useState } from 'react';
+
 
 const CartItem = ({ id, productName, image, brand, totalPrice, quantity, removeItemFromCart, addOrUpdateItem }) => {
+    const [showControllers, setShowControllers] = useState(true)
+
     return (
-        <Container>
-            <img src={image} />
-
+        <Container
+            onMouseEnter={() => setShowControllers(true)}
+            onMouseLeave={() => setShowControllers(false)}
+        >
             <div>
+                {showControllers && <div onClick={() => { removeItemFromCart(id) }}><BsXCircle className="controllers" /></div>}
+
+                <img src={image} />
+            </div>
+
+
+            <ItemDescription>
                 <div>{productName}</div>
-                <div>{quantity} יח'</div>
-            </div>
 
-            <div>
-                <div>₪{totalPrice}</div>
-                <QuantityControllers addOrUpdateItem={addOrUpdateItem} id={id} itemQuantity={quantity} />
-            </div>
+                {showControllers ?
+                    <QuantityControllers
+                        small
+                        className="controllers"
+                        addOrUpdateItem={addOrUpdateItem}
+                        id={id}
+                        itemQuantity={quantity}
+                    />
+                    :
+                    <div>{quantity} יח'</div>}
 
-            <div onClick={() => { removeItemFromCart(id) }}>X</div>
+            </ItemDescription>
+
+
+            <Price>₪{totalPrice}</Price>
+
+
+
 
         </Container>
     )
@@ -28,13 +51,49 @@ export default CartItem;
 const Container = styled.div`
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px black solid;
+    border-bottom: 1px #E0E2E9 solid;
     padding: 5px;
 
     img {
         width: 70px;
         height: 70px;
-        border-left: 1px solid black;
-        padding-left: 5px;
+        border-left: 1px solid #E0E2E9;
+        margin-left: 5px;
     }
+
+    .controllers {
+        position: absolute;
+    }
+
+    svg {
+        background-color: white;
+        border-radius: 100%;
+        width: 20px;
+        height: 20px;
+        transition: .3s;
+    }
+
+    :hover .controllers {
+        opacity: 1;
+    }
+
+    div {
+        display: flex;
+    }
+
+    
+`;
+
+const ItemDescription = styled.div`
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* border: 1px red solid; */
+    width: 100%;
+    font-size: 14px;
+`;
+
+const Price = styled.div`
+    align-self: flex-end;
+    font-weight: bold;
 `;
