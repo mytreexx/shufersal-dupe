@@ -7,6 +7,7 @@ import { getAllProducts } from "../../utils";
 import CategoriesNav from "../ui/CategoriesNav";
 import Header from "../ui/Header";
 import ProductItem from "../ProductItem";
+import SearchInput from "../ui/SearchInput";
 import { Link } from "react-router-dom";
 
 const AdminPage = ({ currentUser }) => {
@@ -25,6 +26,7 @@ const AdminPage = ({ currentUser }) => {
             <Navbar />
             <Header>עריכת מוצרים</Header>
             <CategoriesNav setProducts={setProducts} currentUser={currentUser} />
+            <SearchInput setProducts={setProducts} currentUser={currentUser} />
             <Container>
                 {products && products.map(product =>
                     <ProductItem
