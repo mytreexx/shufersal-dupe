@@ -1,11 +1,12 @@
 const serverUrl = process.env.REACT_APP_SERVER_URL || '';
 
 export const getStoreDetails = (currentUser) => {
+    console.log('getStoreDetails', currentUser)
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'authorization': `Basic ${currentUser}`
+            'authorization': currentUser && `Basic ${currentUser}`
         }
     };
 
@@ -217,4 +218,24 @@ export const createNewProduct = (currentUser, productName, categoryId, price, im
     };
 
     return fetch(`${serverUrl}/product/new-item`, requestOptions)
+}
+
+export const editProduct = (currentUser, productId, productName, categoryId, price, image, brand) => {
+    const requestOptions = {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization': `Basic ${currentUser}`
+        },
+        body: JSON.stringify({
+            productId,
+            productName,
+            categoryId,
+            price,
+            image,
+            brand
+        }),
+    };
+
+    return fetch(`${serverUrl}/product`, requestOptions)
 }

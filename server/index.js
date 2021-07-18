@@ -8,16 +8,13 @@ const productRoute = require('./routes/product');
 const detailsRoute = require('./routes/details');
 const cartRoute = require('./routes/cart');
 
-app.use(express.json({
-    limit: '100mb'
-}));
-
-
 app.use(cors());
 app.use(express.urlencoded({
     extended: true
 }));
-app.use(express.json());
+app.use(express.json({
+    limit: '100mb'
+}));
 
 app.use(authRoute)
 app.use('/order', orderRoute)

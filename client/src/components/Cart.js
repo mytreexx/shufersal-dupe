@@ -6,21 +6,8 @@ import { BsPerson, BsTrash } from 'react-icons/bs';
 import CartItem from './CartItem';
 import Header from './ui/Header';
 
-const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logout }) => {
-    const [totalCartPrice, setTotalCartPrice] = useState(0)
-
-    useEffect(() => {
-        let totalPrice = 0;
-
-        cartItems && cartItems.forEach(item => {
-            totalPrice = totalPrice + item.total_price
-        });
-        if (cartItems) {
-            setTotalCartPrice(totalPrice)
-        } else {
-            setTotalCartPrice(0)
-        }
-    }, cartItems);
+const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logout, userDetails, readOnly }) => {
+    const totalPrice = (cartItems || []).reduce((totalPrice, cartItem) => totalPrice + cartItem.total_price, 0); 
 
     return (
         <Container>
@@ -28,12 +15,12 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logou
                 <CartHeader>
                     <div>
                         <BsPerson />
-                        <strong>שלום יוזר</strong>
+                        <strong>שלום {userDetails.first_name}</strong>
                     </div>
-                    <span onClick={logout}>התנתקות</span>
+                    {!readOnly && <span onClick={logout}>התנתקות</span>}
                 </CartHeader>
 
-                <div className='trash' onClick={emptyCart}><BsTrash />מחיקת סל</div>
+                {!readOnly && <div className='trash' onClick={emptyCart}><BsTrash />מחיקת סל</div>}
                 {cartItems && cartItems.map(item =>
                     <CartItem
                         key={item.id}
@@ -50,8 +37,8 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logou
             </div>
 
             <CartFooter>
-                <div>{totalCartPrice.toFixed(2)}<small>₪</small></div>
-                <Link to="/order">לתשלום</Link>
+                <div>{totalPrice.toFixed(2)}<small>₪</small></div>
+                {!readOnly && <Link to="/order">לתשלום</Link>}
             </CartFooter>
 
         </Container>
@@ -109,7 +96,7 @@ const CartFooter = styled.div`
 
 
     a, div {
-        width: 50%;
+        width: 100%;
         color: white;
         font-size: 20px;
         text-decoration: none;

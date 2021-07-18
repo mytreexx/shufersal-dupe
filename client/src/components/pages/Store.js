@@ -9,7 +9,7 @@ import Cart from '../Cart';
 import CategoriesNav from '../ui/CategoriesNav';
 import { getAllProducts, getCartItems, addOrUpdateItemToCart, onRemoveItemFromCart, onEmptyCart } from '../../utils';
 
-const Store = ({ currentUser, logout }) => {
+const Store = ({ currentUser, userDetails, logout }) => {
     const [products, setProducts] = useState();
     const [cartItems, setCartItems] = useState();
 
@@ -65,7 +65,7 @@ const Store = ({ currentUser, logout }) => {
 
     return (
         <Container>
-            <div>
+            <ContentContianer>
                 <Navbar />
                 <CategoriesNav currentUser={currentUser} setProducts={setProducts} />
                 <SearchInput setProducts={setProducts} currentUser={currentUser} />
@@ -77,15 +77,16 @@ const Store = ({ currentUser, logout }) => {
                             key={product.id}
                             id={product.id}
                             name={product.product_name}
-                            catagoryId={product.category_id}
+                            categoryId={product.category_id}
                             price={product.price}
                             image={product.image}
                             brand={product.brand}
                             addOrUpdateItem={addOrUpdateItem}
+                            currentUser={currentUser}
                         />
                     )}
                 </ProductsList>
-            </div>
+            </ContentContianer>
             <Cart
                 currentUser={currentUser}
                 cartItems={cartItems}
@@ -93,6 +94,7 @@ const Store = ({ currentUser, logout }) => {
                 emptyCart={emptyCart}
                 addOrUpdateItem={addOrUpdateItem}
                 logout={logout}
+                userDetails={userDetails}
             />
         </Container>
     )
@@ -102,6 +104,7 @@ export default Store;
 
 const Container = styled.div`
     display: flex;
+    justify-content: center;
 `;
 
 const ProductsList = styled.div`
@@ -109,4 +112,10 @@ const ProductsList = styled.div`
     flex-wrap: wrap;
     justify-content: right;
     align-self: center;
+`;
+
+
+const ContentContianer = styled.div`
+    max-width:1500px;
+    flex-shrink: 10;
 `;

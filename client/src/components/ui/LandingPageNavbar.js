@@ -92,6 +92,10 @@ const MainContainer = styled.div`
         display: flex;
         align-items: center;
 
+        @media (max-width: 977px) {
+            font-size: 12px;
+        }
+
         div {
             display: flex;
             flex-direction: column;
@@ -125,6 +129,14 @@ const StartShopping = styled.button`
     font-weight: bold;
     padding: 10px 15px;
     border-radius: 4px;
+
+    @media (max-width: 1300px) {
+        font-size: 14px;
+        
+        img {
+            transform: scale(70%)
+        }
+    }
 
 img {
     height: auto;

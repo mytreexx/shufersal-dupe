@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,6 +15,7 @@ import { getLogin } from '../../utils'
 const Login = ({ onUserChange }) => {
     const [idNumber, setIdNumber] = useState();
     const [password, setPassword] = useState();
+    const [redirect, setRedirect] = useState();
 
     const history = useHistory();
 
@@ -26,13 +27,21 @@ const Login = ({ onUserChange }) => {
             .then((response) => {
                 if (response.ok) {
                     response.json()
-                        .then(response => onUserChange(response.token))
-                    history.push('/store');
+                        .then(response => {
+                            onUserChange(response.token);
+                            setRedirect(response.isAdmin ? '/editProducts' : '/');
+                        })
                 } else {
                     response.json()
                         .then((response) => toast.error(response.error));
                 }
             });
+    }
+
+    if (redirect) {
+        return (
+            <Redirect to={redirect} />
+        )
     }
 
     return (

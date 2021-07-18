@@ -45,6 +45,7 @@ const Container = styled.div`
     display: flex; 
     padding: 20px;
     padding-right: 50px;
+    flex-wrap: flex-end;
 
     div {
         font-size: 16px;

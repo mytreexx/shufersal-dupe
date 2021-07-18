@@ -94,7 +94,7 @@ router.post('/new-item', verifyTokenOrError, (req, res) => {
 })
 
 //admin: edit products
-router.patch('/', verifyTokenOrError, async (req, res) => {
+router.put('/', verifyTokenOrError, async (req, res) => {
     const { productId, productName, categoryId, price, image, brand } = req.body;
 
     jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
@@ -106,8 +106,12 @@ router.patch('/', verifyTokenOrError, async (req, res) => {
                 productName && (product.product_name = productName);
                 categoryId && (product.category_id = categoryId);
                 price && (product.price = price);
-                image && (product.image = image);
                 brand && (product.brand = brand);
+
+                if (image) {
+                    const uploadResponse = await cloudinary.uploader.upload(image);
+                    product.image = uploadResponse.secure_url;
+                }
 
                 try {
                     await product.save();

@@ -83,7 +83,7 @@ router.put('/', verifyTokenOrError, (req, res) => {
 
                 try {
                     await sequelize.sync();
-                    itemToUpdate.save();
+                    await itemToUpdate.save();
                     const cart = await getCart(authData.loggingInUser.id);
                     res.send(cart);
                 } catch (e) {

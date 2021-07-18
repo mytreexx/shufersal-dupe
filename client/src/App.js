@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
+import jwtDecode from "jwt-decode";
 
 import './App.css';
 import LandingPage from './components/pages/LandingPage';
@@ -10,6 +11,7 @@ import OrderPage from './components/pages/OrderPage';
 import Receipt from './components/pages/Receipt';
 import EditProductsPage from './components/pages/EditProductsPage';
 import AddProduct from './components/pages/AddProduct';
+import PrivateRoute from './components/PrivateRoute';
 
 
 function App() {
@@ -17,10 +19,12 @@ function App() {
   const [currentUser, setCurrentUser] = useState(
     localStorage.getItem('currentUser')
   );
+  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
     if (currentUser) {
       localStorage.setItem('currentUser', currentUser);
+      setUserDetails(jwtDecode(currentUser).loggingInUser)
     } else {
       localStorage.removeItem('currentUser');
     }
@@ -28,13 +32,20 @@ function App() {
 
   const logout = () => {
     setCurrentUser(undefined);
+    localStorage.setItem('currentUser', currentUser);
+    setUserDetails(jwtDecode(currentUser).loggingInUser)
     history.push('/');
   };
+
+  const isAdmin = () => {
+    const currentUser = localStorage.getItem('currentUser');
+    return currentUser && jwtDecode(currentUser).loggingInUser.is_admin;
+  }
 
   return (
     <Switch>
       <Route exact path="/">
-        <LandingPage currentUser={currentUser} logout={logout} />
+        <LandingPage currentUser={currentUser} userDetails={userDetails} logout={logout} />
       </Route>
 
       <Route path="/register">
@@ -48,25 +59,25 @@ function App() {
         />
       </Route>
 
-      <Route path="/store">
-        <Store currentUser={currentUser} logout={logout} />
-      </Route>
+      <PrivateRoute hasAccess={!!currentUser} redirectTo="/login" path="/store">
+        <Store currentUser={currentUser} userDetails={userDetails} logout={logout} />
+      </PrivateRoute>
 
-      <Route path="/order">
-        <OrderPage currentUser={currentUser} />
-      </Route>
+      <PrivateRoute hasAccess={!!currentUser} redirectTo="/login" path="/order">
+        <OrderPage currentUser={currentUser} userDetails={userDetails} />
+      </PrivateRoute>
 
-      <Route path="/receipt/:shippingDate/:orderId">
+      <PrivateRoute hasAccess={!!currentUser} redirectTo="/login" path="/receipt/:shippingDate/:orderId">
         <Receipt currentUser={currentUser} />
-      </Route>
+      </PrivateRoute>
 
-      <Route path="/editProducts">
+      <PrivateRoute hasAccess={isAdmin()} redirectTo="/" path="/editProducts">
         <EditProductsPage currentUser={currentUser} />
-      </Route>
+      </PrivateRoute>
 
-      <Route path="/addProduct">
+      <PrivateRoute hasAccess={isAdmin()} redirectTo="/" path="/addProduct">
         <AddProduct currentUser={currentUser} />
-      </Route>
+      </PrivateRoute>
     </Switch>
   );
 }

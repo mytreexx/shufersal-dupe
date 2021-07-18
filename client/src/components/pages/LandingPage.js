@@ -8,12 +8,11 @@ import advertisement2 from '../../assets/advertisement2.jpg';
 import { getStoreDetails } from '../../utils';
 
 
-const LandingPage = ({ currentUser, logout }) => {
+const LandingPage = ({ currentUser, userDetails, logout }) => {
     const [numberOfProducts, setNumberOfProducts] = useState();
     const [numberOfOrders, setNumberOfOrders] = useState();
     const [messageToUser, setMessageToUser] = useState();
     const [hasActiveCart, setHasActiveCart] = useState();
-    const [customerName, setCustomerName] = useState();
 
     useEffect(() => {
         getStoreDetails(currentUser)
@@ -24,13 +23,12 @@ const LandingPage = ({ currentUser, logout }) => {
                 setNumberOfOrders(result.numberOfOrders);
                 setMessageToUser(result.messageToUser);
                 setHasActiveCart(result.hasActiveCart);
-                setCustomerName(result.customerName)
             })
     }, []);
 
     return (
         <Container>
-            <LandingPageNavbar logout={logout} customerName={customerName} currentUser={currentUser} messageToUser={messageToUser} hasActiveCart={hasActiveCart} />
+            <LandingPageNavbar logout={logout} customerName={userDetails.first_name || 'אורח'} currentUser={currentUser} messageToUser={messageToUser} hasActiveCart={hasActiveCart} />
             <Carousel />
             <Announcement>
                 לקוחות שופרסל Online,
@@ -79,6 +77,12 @@ const Main = styled.div`
     justify-content: center;
     margin: 50px 0;
     background-color: #F0F3F9;
+
+    img {
+        @media (max-width: 1250px) {
+            width: 500px;
+        }
+    }
 `;
 
 const Card = styled.div`

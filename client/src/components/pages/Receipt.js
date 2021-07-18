@@ -21,7 +21,6 @@ const Receipt = () => {
                 <Link to="/">
                     <Button small >אישור וחזרה לאתר</Button>
                 </Link>
-
             </Container>
         </>
     )

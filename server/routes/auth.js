@@ -73,7 +73,8 @@ router.post('/login', async (req, res) => {
     } else {
         jwt.sign({ loggingInUser }, 'supersecretkey', (err, token) => {
             res.json({
-                token
+                token,
+                isAdmin: loggingInUser.is_admin,
             });
         });
     }

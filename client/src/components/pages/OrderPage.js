@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from 'react-router-dom';
 
@@ -10,9 +10,10 @@ import Input from "../ui/Input";
 import Button from '../ui/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useReactToPrint } from 'react-to-print';
 
 
-const OrderPage = ({ currentUser }) => {
+const OrderPage = ({ currentUser, userDetails }) => {
     const [cartItems, setCartItems] = useState();
     const [availableDates, setAvailableDates] = useState();
 
@@ -28,6 +29,12 @@ const OrderPage = ({ currentUser }) => {
         const regex = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/
         return regex.test(cardNumber);
     }
+
+    const componentToPrint = useRef();
+
+    const printReceipt = useReactToPrint({
+        content: () => componentToPrint.current
+    });
 
     useEffect(() => {
         getCartItems(currentUser)
@@ -50,6 +57,7 @@ const OrderPage = ({ currentUser }) => {
 
     const makeOrder = (e) => {
         e.preventDefault();
+
         if (validateCreditCard(creditCard)) {
             onMakeOrder(currentUser, city, street, shippingDate, creditCard)
                 .then((response) => {
@@ -123,11 +131,17 @@ const OrderPage = ({ currentUser }) => {
 
                     <Button type="submit" small>בצע הזמנה כעת</Button>
                     <Link to="/store"><Button small light> חזור</Button></Link>
+                    <Button type="button" small onClick={printReceipt}>הדפס קבלה</Button>
                 </OrderForm>
+
             </div>
-            <DisabledElement>
-                <Cart cartItems={cartItems} />
-            </DisabledElement>
+
+            <div ref={componentToPrint}>
+                <Cart
+                    cartItems={cartItems}
+                    userDetails={userDetails}
+                    readOnly />
+            </div>
 
         </Container>
     )
@@ -154,11 +168,6 @@ const OrderForm = styled.form`
 
 const Container = styled.div`
     display: flex;
-`;
-
-const DisabledElement = styled.div`
-    pointer-events: none;
-    filter: grayscale(1) brightness(1.1);
 `;
 
 const Select = styled.select`

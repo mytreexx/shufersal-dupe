@@ -24,22 +24,22 @@ const Navbar = ({ ...props }) => {
                 <span><strong>הקניון - הכל לבית</strong></span>
             </div>
 
-            <div>
+            <div className="collapsable">
                 <img src={be} />
                 <span><strong>פארם וקוסמטיקה</strong></span>
             </div>
 
-            <div>
+            <div className="collapsable">
                 <img src={green} />
                 <span><strong>green בריאות וטבע</strong></span>
             </div>
 
-            <div>
+            <div className="collapsable">
                 <img src={business} />
                 <span>שופרסל<br />עסקים</span>
             </div>
 
-            <div>
+            <div className="collapsable">
                 <span>תו<br />הזהב</span>
             </div>
         </Container>
@@ -56,6 +56,11 @@ const Container = styled.div`
     background-color: white;
     ${(props) => (props.size === 'small' ? 'height: 75px' : 'height: 110px')};
     ${(props) => (props.size !== 'small' && 'padding-right: 40px')};
+    @media (max-width: 1930px) {
+        .collapsable {
+            display: none;
+        }
+    }
 
     div {
         display: flex;

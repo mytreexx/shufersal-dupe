@@ -14,7 +14,7 @@ router.post('/', verifyTokenOrGuest, async (req, res) => {
     let messageToUser = "ברוך הבא לשופרסל";
     let hasActiveCart = false;
 
-    if (req.token) {
+    if (!!req.token) {
         jwt.verify(req.token, 'supersecretkey', async (err, authData) => {
             const customer = await Customer.findOne({ where: { id: authData.loggingInUser.id } });
             const cart = await ShoppingCart.findOne({
