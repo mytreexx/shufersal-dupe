@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { getCategoriesFromServer, onGetCategoryItems } from '../../utils'
 
+
 const CategoriesNav = ({ currentUser, setProducts }) => {
     const [categories, setCategories] = useState();
 
