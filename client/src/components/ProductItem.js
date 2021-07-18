@@ -10,15 +10,17 @@ const ProductItem = ({ categoryId, id, image, name, brand, price, addOrUpdateIte
             onMouseLeave={() => setShowControllers(false)}
         >
             <img src={image} />
-            <div>₪{price}</div>
-            <div>{name}</div>
-            <div>{brand}</div>
+            <div>
+                <strong>₪{price}</strong>
+                <div><b>{name}</b> | {brand}</div>
+            </div>
+
 
             <QuantityControllers
                 id={id}
                 itemQuantity={itemQuantity}
                 addOrUpdateItem={addOrUpdateItem}
-                style={showControllers ? {opacity:'1'} : {opacity: '1'}}
+                style={showControllers ? { opacity: '1' } : { opacity: '0' }}
             />
         </Container>
     )
@@ -30,8 +32,8 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 275px;
-    height: 370px;
+    width: 250px;
+    height: 300px;
     border: 1px solid #e0e2e9;
     margin: 10px;
     transition: .5s;
@@ -45,5 +47,10 @@ const Container = styled.div`
         height: 155px;
         width: 155px;
         margin: 0 auto;
+    }
+
+    strong {
+        font-size: 20px;
+        font-weight: normal;
     }
 `;
