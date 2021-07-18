@@ -32,7 +32,6 @@ const Cart = ({ cartItems, removeItemFromCart, emptyCart, addOrUpdateItem, logou
                     <span onClick={logout}>התנתקות</span>
                 </Header>
 
-
                 <div className='trash' onClick={emptyCart}><BsTrash />מחיקת סל</div>
                 {cartItems && cartItems.map(item =>
                     <CartItem
@@ -66,9 +65,13 @@ const Container = styled.div`
     justify-content: space-between;
     width: 400px;
     box-shadow: 0 3px 9px 0 rgb(0 0 0 / 35%);
+    height: 100vh;
 
     .trash {
         margin: 5px;
+        padding-bottom: 5px;
+        cursor: pointer;
+        width: fit-content;
     }
 `;
 
