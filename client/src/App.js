@@ -9,6 +9,7 @@ import Store from './components/pages/Store';
 import OrderPage from './components/pages/OrderPage';
 import Receipt from './components/pages/Receipt';
 import AdminPage from './components/pages/AdminPage';
+import AddProduct from './components/pages/AddProduct';
 
 
 function App() {
@@ -61,6 +62,10 @@ function App() {
 
       <Route path="/admin">
         <AdminPage currentUser={currentUser} />
+      </Route>
+
+      <Route path="/add">
+        <AddProduct currentUser={currentUser} />
       </Route>
     </Switch>
   );

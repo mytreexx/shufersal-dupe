@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { BsPlusCircle } from 'react-icons/bs';
 
 import Navbar from "../ui/Navbar";
 import { getAllProducts } from "../../utils";
 import CategoriesNav from "../ui/CategoriesNav";
 import Header from "../ui/Header";
 import ProductItem from "../ProductItem";
+import { Link } from "react-router-dom";
 
 const AdminPage = ({ currentUser }) => {
     const [products, setProducts] = useState();
@@ -19,9 +21,9 @@ const AdminPage = ({ currentUser }) => {
     }, []);
 
     return (
-        <div>
+        <>
             <Navbar />
-            <Header>עריכת והוספת מוצרים</Header>
+            <Header>עריכת מוצרים</Header>
             <CategoriesNav setProducts={setProducts} currentUser={currentUser} />
             <Container>
                 {products && products.map(product =>
@@ -36,7 +38,12 @@ const AdminPage = ({ currentUser }) => {
                     />
                 )}
             </Container>
-        </div>
+
+            <AddButtonLink to='/add'>
+                <BsPlusCircle />
+            </AddButtonLink>
+
+        </>
 
     )
 }
@@ -45,4 +52,25 @@ export default AdminPage;
 
 const Container = styled.div`
     display: flex;
+`;
+
+const AddButtonLink = styled(Link)`
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    border-radius: 100%;
+    height: 70px;
+    width: 70px;
+    transition: .3s;
+    cursor: pointer;
+
+    svg {
+        width: 75px;
+        height: 75px;
+        color: #D51C4A;
+    }
+
+    :hover {
+        filter: brightness(.9)
+    }
 `;
